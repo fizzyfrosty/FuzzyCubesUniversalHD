@@ -1,0 +1,8 @@
+// Source file: C:/Users/frosty/Documents/maya_projects/AirplaySDKMaya/scenes/cubeReversed_ep3.mb
+// Exported By: <Unknown> on 11/07/11 14:42:49
+
+CIwResGroup
+{
+	name "backgroundSphere3"
+	"./models/backgroundSphere3.geo"
+}

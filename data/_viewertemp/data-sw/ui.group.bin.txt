@@ -1,0 +1,19 @@
+ResGroupResources:
+	CIwTexture (0x3521f539)
+		"mainmenu" (0x3b7da5ff)
+		Size: 307232
+	ResList 'CIwTexture' pos:77 size:307242
+
+	CIwUIElement (0x6097ed50)
+		"main" (0x7c9a7f6a)
+		CIwUIImage (0x8a5d37c9)
+			"Image" (0xfa87ca8)
+			Size: 80
+		CIwUILayoutItemContainer (0x4a265b56)
+			"Image" (0xfa87ca8)
+			Size: 31
+		Size: 197
+	ResList 'CIwUIElement' pos:307319 size:207
+
+ResGroupResources: Wrote 307453 bytes to CIwResGroup "UI"
+

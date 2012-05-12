@@ -1,0 +1,8 @@
+ResGroupResources:
+	CIwTexture (0x3521f539)
+		"buttonUp" (0x324cd146)
+		Size: 8224
+	ResList 'CIwTexture' pos:42 size:8234
+
+ResGroupResources: Wrote 8238 bytes to CIwResGroup "_viewertemp"
+

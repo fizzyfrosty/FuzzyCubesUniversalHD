@@ -1,0 +1,66 @@
+CIwUIPropertySet 
+{
+	name "Button"
+	parent <button>
+//: extraclass "CIwUIButton"
+	buttonUp ButtonUp
+	buttonDown ButtonDown
+}
+CIwUIPropertySet 
+{
+	name "ButtonUp"
+//: extraclass "IIwUIDrawable"
+	drawableType "border"
+	texture "buttonUp"
+}
+CIwUIPropertySet 
+{
+	name "ButtonDown"
+//: extraclass "IIwUIDrawable"
+	drawableType "border"
+	texture "buttonDown"
+}
+CIwUIPropertySet 
+{
+	name "Button"
+	parent <button>
+//: extraclass "CIwUIButton"
+}
+CIwUIElement 
+{
+	name "options"
+	pos  { 0 0 }
+	size  { 320 480 }
+	CIwUIImage 
+	{
+		name "Image"
+		pos  { 96 208 }
+		size  { 128 64 }
+		sizeToContent true
+		texture "image"
+	}
+	CIwUIButton 
+	{
+		name "Button"
+		pos  { 113 163 }
+		size  { 89 37 }
+		style <button>
+		caption "Button"
+	}
+	CIwUILayout 
+	{
+		name "Layered_0"
+		element 
+		{
+			name "Image"
+			alignH "centre"
+			alignV "middle"
+		}
+		element 
+		{
+			name "Button"
+			alignH "centre"
+			alignV "middle"
+		}
+	}
+}

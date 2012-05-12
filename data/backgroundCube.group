@@ -1,0 +1,8 @@
+// Source file: C:/Users/frosty/Documents/maya_projects/AirplaySDKMaya/untitled
+// Exported By: <Unknown> on 04/14/11 01:27:58
+
+CIwResGroup
+{
+	name "backgroundCube"
+	"./models/backgroundCube.geo"
+}

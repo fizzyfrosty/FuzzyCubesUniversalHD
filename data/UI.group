@@ -1,0 +1,13 @@
+// IwUI Group file created by the tool
+
+CIwResGroup
+{
+	name "UI"
+	"textures/buttonUp.png"
+	"textures/buttonDown.png"
+	"textures/mainmenu.png"
+	
+	"iwui_style/style.group"
+
+	"main.ui"
+}

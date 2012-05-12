@@ -1,0 +1,32 @@
+CIwUIElement
+{
+	name "main"
+	pos  { 0 0 }
+	size  { 320 480 }
+	colour { 255 255 255 255 }
+	CIwUIImage 
+	{
+		name "Image"
+		pos  { 0 0 }
+		size  { 320 480 }
+		sizeToContent true
+		texture "mainmenu"
+		CIwUIButton 
+		{
+			name "Button"
+			pos  { 112 249 }
+			size  { 89 37 }
+			style ButtonStyle
+			caption ""
+			buttonDown ButtonDownImage
+		}
+	}
+	CIwUILayout 
+	{
+		name "Layered_0"
+		element 
+		{
+			name "Image"
+		}
+	}
+}

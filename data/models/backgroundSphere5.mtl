@@ -1,0 +1,12 @@
+// Source file: C:/Users/frosty/Documents/maya_projects/AirplaySDKMaya/scenes/sphereReversed_ep5.mb
+CIwMaterial
+{
+	name "backgroundSphere5/background"
+	texture0 "./textures/FuzzyBG5Z_low.png"
+}
+CIwMaterial
+{
+	name "backgroundSphere5/lambert1"
+	colAmbient {127,127,127}
+	colDiffuse {127,127,127}
+}

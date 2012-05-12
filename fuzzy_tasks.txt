@@ -1,0 +1,43 @@
+Fuzzy Cubes:
+
+Visuals and Cinematics
+----------------------
+
+- Cutscenes
+	- Opening for ep 1
+	- break 1
+	- break 2
+	- Ending for ep1 / opening for ep 2
+	- break 1
+	- break 2
+	- ending for ep 2 / opening for ep 3
+	- break 1
+	- break 2
+	- ending for ep 3 / opening for ep 4
+	- ending for ep 4 / opening for ep 5
+	- ending for ep 5 / opening for ep 6
+	- epilogue
+
+- Tutorial Video
+- Episode 4 Background
+- Episode 5 Background
+- Episode 6 Background
+- High Score Screen Layout
+- Credits Screen Layout
+- Arrows Image to show 'Swipe to Navigate' in Main Menu
+
+
+
+Audio
+------
+- Yays / Congratulatory Sounds
+	- Level Up
+	- Complete
+
+- Sound for Rotate Button (?)
+- Sound for Red Buttons (?)
+
+- faster music variations (?)
+- Song for episode 4
+- Song for episode 5
+- Song for episode 6

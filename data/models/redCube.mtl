@@ -1,0 +1,9 @@
+// Source file: C:/Users/frosty/Documents/maya_projects/AirplaySDKMaya/scenes/redCube.mb
+CIwMaterial
+{
+	name "redCube/phong1"
+	colAmbient {207,4,3}
+	colDiffuse {207,4,3}
+	colSpecular {127,127,127}
+	specularPower 20
+}

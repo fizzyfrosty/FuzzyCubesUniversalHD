@@ -1,0 +1,6 @@
+CIwResGroup
+{
+	name "menuData"
+	"./textures/menuTitle.png"
+	"./textures/menuTitle2.png"
+}

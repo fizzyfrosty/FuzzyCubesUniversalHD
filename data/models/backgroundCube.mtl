@@ -1,0 +1,6 @@
+// Source file: C:/Users/frosty/Documents/maya_projects/AirplaySDKMaya/untitled
+CIwMaterial
+{
+	name "backgroundCube/lambert2"
+	texture0 "./textures/stars.png" { mipmapping false }
+}

@@ -1,0 +1,15 @@
+Airplay Crashlog
+----------------
+
+System Information:
+
+   Airplay Version: 4.3.3 [253856] (S3E ABI v4.25.1)
+   OS             : WINDOWS (3)
+   OS Version     : Windows NT 4.0 (4.0)
+   Device ID      : Windows Simulator (0x1)
+   Device Class   : WINDOWS_GENERIC (3000)
+   Phone Number   : 0044123456789
+
+Crash Information:
+
+Memory exception (11) attempting to access: 00000000 [ip=098F63FD]

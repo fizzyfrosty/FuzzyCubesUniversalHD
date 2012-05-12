@@ -1,0 +1,12 @@
+// Source file: C:/Users/frosty/Documents/maya_projects/AirplaySDKMaya/scenes/cubeReversed_ep3.mb
+CIwMaterial
+{
+	name "backgroundSphere3/background"
+	texture0 "./textures/EPISODE3BG-3-2.png"
+}
+CIwMaterial
+{
+	name "backgroundSphere3/lambert1"
+	colAmbient {127,127,127}
+	colDiffuse {127,127,127}
+}

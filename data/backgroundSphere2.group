@@ -1,0 +1,8 @@
+// Source file: C:/Users/frosty/Documents/maya_projects/AirplaySDKMaya/scenes/sphereReversed.mb
+// Exported By: <Unknown> on 11/01/11 17:02:39
+
+CIwResGroup
+{
+	name "backgroundSphere2"
+	"./models/backgroundSphere2.geo"
+}
