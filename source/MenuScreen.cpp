@@ -12,14 +12,17 @@ MenuScreen::~MenuScreen(void)
 
 void MenuScreen::Initialize( int16 t )
 {
-	image = Iw2DCreateImage("splash.png");
+	//image = Iw2DCreateImage("splash.png");
+	image = Iw2DCreateImage("splash(HD).png");
 
 	//counter = 0;
 	buttonCount = 0;
 	type = t;
-	sprite.setUWidth( 480 );
-	sprite.setUHeight( 320 );
+	//sprite.setUWidth( 480 );
+	//sprite.setUHeight( 320 );
 	//sprite.setSize( 480, 320 );
+	sprite.setUWidth( 1024 );
+	sprite.setUHeight( 768 );
 	sprite.setSize( IwGxGetScreenWidth(), IwGxGetScreenHeight() );
 	sprite.setImage( image );
 	sprite.setPosition( IwGxGetScreenWidth()/2, -IwGxGetScreenHeight()/2 );
@@ -66,7 +69,8 @@ void MenuScreen::Initialize( int16 t )
 	else if( type == HIGH_SCORE )
 	{
 		delete image;
-		image = Iw2DCreateImage("highscore_screen.png");
+		//image = Iw2DCreateImage("highscore_screen.png");
+		image = Iw2DCreateImage("Hiscorescreen(HD).png");
 		// high score screen has back button, and Rate button
 		buttonCount = 12; // buttons 0-1 are rate, 2-6 are black trophies, 7-11 are trophies
 
@@ -80,19 +84,25 @@ void MenuScreen::Initialize( int16 t )
 			switch( i )
 			{
 			case 0: // RATE button
-				buttonImageArray[i] = Iw2DCreateImage("rateButton_red.png");
-				buttonImageArray_pressed[i] = Iw2DCreateImage("rateButton_green.png");
+				//buttonImageArray[i] = Iw2DCreateImage("rateButton_red.png");
+				//buttonImageArray_pressed[i] = Iw2DCreateImage("rateButton_green.png");
+				buttonImageArray[i] = Iw2DCreateImage("rateRED(HD).png");
+				buttonImageArray_pressed[i] = Iw2DCreateImage("rateGREEN(HD).png");
 
 				buttonSprite[i].setImage( buttonImageArray[i] );
-				buttonSprite[i].setUWidth( 64 );
-				buttonSprite[i].setUHeight( 64 );
+				//buttonSprite[i].setUWidth( 64 );
+				//buttonSprite[i].setUHeight( 64 );
 				//buttonSprite[i].setSize( 64, 64 );
+				buttonSprite[i].setUWidth( 256 );
+				buttonSprite[i].setUHeight( 256 );
 				buttonSprite[i].setSize( IwGxGetScreenWidth() * .133, IwGxGetScreenWidth() * .133 );
 			
 				buttonSprite_pressed[i].setImage( buttonImageArray_pressed[i] );	
-				buttonSprite_pressed[i].setUWidth( 64 );
-				buttonSprite_pressed[i].setUHeight( 64 );
+				//buttonSprite_pressed[i].setUWidth( 64 );
+				//buttonSprite_pressed[i].setUHeight( 64 );
 				//buttonSprite_pressed[i].setSize( 50, 50 );
+				buttonSprite_pressed[i].setUWidth( 256 );
+				buttonSprite_pressed[i].setUHeight( 256 );
 				buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .104, IwGxGetScreenWidth() * .104 );
 
 				button[i].setUnpressedSprite( buttonSprite[i] );
@@ -103,19 +113,26 @@ void MenuScreen::Initialize( int16 t )
 				//button[i].setLocation( 50, 100 ); // not affected here. in render
 				break;
 			case 1: // BACK button
-				buttonImageArray[i] = Iw2DCreateImage("backButton_red.png");
-				buttonImageArray_pressed[i] = Iw2DCreateImage("backButton_green.png");
+				//buttonImageArray[i] = Iw2DCreateImage("backButton_red.png");
+				//buttonImageArray_pressed[i] = Iw2DCreateImage("backButton_green.png");
+
+				buttonImageArray[i] = Iw2DCreateImage("Backbutton(redHD).png");
+				buttonImageArray_pressed[i] = Iw2DCreateImage("Backbutton(greenHD).png");
 
 				buttonSprite[i].setImage( buttonImageArray[i] );
-				buttonSprite[i].setUWidth( 64 );
-				buttonSprite[i].setUHeight( 64 );
+				//buttonSprite[i].setUWidth( 64 );
+				//buttonSprite[i].setUHeight( 64 );
 				//buttonSprite[i].setSize( 64, 64 );
+				buttonSprite[i].setUWidth( 256 );
+				buttonSprite[i].setUHeight( 256 );
 				buttonSprite[i].setSize( IwGxGetScreenWidth() * .133, IwGxGetScreenWidth() * .133 );
 			
 				buttonSprite_pressed[i].setImage( buttonImageArray_pressed[i] );	
-				buttonSprite_pressed[i].setUWidth( 64 );
-				buttonSprite_pressed[i].setUHeight( 64 );
+				//buttonSprite_pressed[i].setUWidth( 64 );
+				//buttonSprite_pressed[i].setUHeight( 64 );
 				//buttonSprite_pressed[i].setSize( 50, 50 );
+				buttonSprite_pressed[i].setUWidth( 256 );
+				buttonSprite_pressed[i].setUHeight( 256 );
 				buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .104, IwGxGetScreenWidth() * .104 );
 
 				button[i].setUnpressedSprite( buttonSprite[i] );
@@ -130,44 +147,61 @@ void MenuScreen::Initialize( int16 t )
 			case 4:
 			case 5:
 			case 6:
-				buttonImageArray[i] = Iw2DCreateImage("trophyButton_black.png");
-				buttonImageArray_pressed[i] = Iw2DCreateImage("trophyButton_black.png");
+				//buttonImageArray[i] = Iw2DCreateImage("trophyButton_black.png");
+				//buttonImageArray_pressed[i] = Iw2DCreateImage("trophyButton_black.png");
+
+				buttonImageArray[i] = Iw2DCreateImage("trophybuttonBLACK(HD).png");
+				buttonImageArray_pressed[i] = Iw2DCreateImage("trophybuttonBLACK(HD).png");
 
 				buttonSprite[i].setImage( buttonImageArray[i] );
-				buttonSprite[i].setUWidth( 100 );
-				buttonSprite[i].setUHeight( 100 );
+				//buttonSprite[i].setUWidth( 100 );
+				//buttonSprite[i].setUHeight( 100 );
 				//buttonSprite[i].setSize( 100, 100 );
-				buttonSprite[i].setSize( IwGxGetScreenWidth() * .208, IwGxGetScreenWidth() * .208 );
+				buttonSprite[i].setUWidth( 128 );
+				buttonSprite[i].setUHeight( 128 );
+				//buttonSprite[i].setSize( IwGxGetScreenWidth() * .208, IwGxGetScreenWidth() * .208 );
+				buttonSprite[i].setSize( IwGxGetScreenWidth() * .133, IwGxGetScreenWidth() * .133 );
 			
 				buttonSprite_pressed[i].setImage( buttonImageArray_pressed[i] );	
-				buttonSprite_pressed[i].setUWidth( 100 );
-				buttonSprite_pressed[i].setUHeight( 100 );
+				//buttonSprite_pressed[i].setUWidth( 100 );
+				//buttonSprite_pressed[i].setUHeight( 100 );
 				//buttonSprite_pressed[i].setSize( 80, 80 );
-				buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .167, IwGxGetScreenWidth() * .167 );
+				buttonSprite_pressed[i].setUWidth( 128 );
+				buttonSprite_pressed[i].setUHeight( 128 );
+				//buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .167, IwGxGetScreenWidth() * .167 );
+				buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .104, IwGxGetScreenWidth() * .104 );
 
 				button[i].setUnpressedSprite( buttonSprite[i] );
 				button[i].setPressedSprite( buttonSprite_pressed[i] );
 				//button[i].setTouchSize( 64, 64 );
-				button[i].setTouchSize( IwGxGetScreenWidth() * .167, IwGxGetScreenWidth() * .167 );
+				//button[i].setTouchSize( IwGxGetScreenWidth() * .167, IwGxGetScreenWidth() * .167 );
+				button[i].setTouchSize( IwGxGetScreenWidth() * .133, IwGxGetScreenWidth() * .133 );
 				break;
 			case 7:
 			case 8:
 			case 9:
 			case 10:
 			case 11: // all the REGULAR TROPHY buttons
-				buttonImageArray[i] = Iw2DCreateImage("trophyButton.png");
-				buttonImageArray_pressed[i] = Iw2DCreateImage("trophyButton.png");
+				//buttonImageArray[i] = Iw2DCreateImage("trophyButton.png");
+				//buttonImageArray_pressed[i] = Iw2DCreateImage("trophyButton.png");
+
+				buttonImageArray[i] = Iw2DCreateImage("trophybutton(HD).png");
+				buttonImageArray_pressed[i] = Iw2DCreateImage("trophybutton(HD).png");
 
 				buttonSprite[i].setImage( buttonImageArray[i] );
-				buttonSprite[i].setUWidth( 64 );
-				buttonSprite[i].setUHeight( 64 );
+				//buttonSprite[i].setUWidth( 64 );
+				//buttonSprite[i].setUHeight( 64 );
 				//buttonSprite[i].setSize( 64, 64 );
+				buttonSprite[i].setUWidth( 128 );
+				buttonSprite[i].setUHeight( 128 );
 				buttonSprite[i].setSize( IwGxGetScreenWidth() * .133, IwGxGetScreenWidth() * .133 );
 			
 				buttonSprite_pressed[i].setImage( buttonImageArray_pressed[i] );	
-				buttonSprite_pressed[i].setUWidth( 64 );
-				buttonSprite_pressed[i].setUHeight( 64 );
+				//buttonSprite_pressed[i].setUWidth( 64 );
+				//buttonSprite_pressed[i].setUHeight( 64 );
 				//buttonSprite_pressed[i].setSize( 50, 50 );
+				buttonSprite_pressed[i].setUWidth( 128 );
+				buttonSprite_pressed[i].setUHeight( 128 );
 				buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .104, IwGxGetScreenWidth() * .104 );
 
 				button[i].setUnpressedSprite( buttonSprite[i] );
@@ -182,7 +216,8 @@ void MenuScreen::Initialize( int16 t )
 	else if( type == CREDITS )
 	{
 		delete image;
-		image = Iw2DCreateImage("credits_screen.png");
+		//image = Iw2DCreateImage("credits_screen.png");
+		image = Iw2DCreateImage("Creditsscreen(HD).png");
 
 		// high score screen has back button, and Rate button
 		buttonCount = 2;
@@ -192,27 +227,35 @@ void MenuScreen::Initialize( int16 t )
 			switch( i )
 			{
 			case 0: // RATE button
-				buttonImageArray[i] = Iw2DCreateImage("rateButton_red.png");
-				buttonImageArray_pressed[i] = Iw2DCreateImage("rateButton_green.png");
+				//buttonImageArray[i] = Iw2DCreateImage("rateButton_red.png");
+				//buttonImageArray_pressed[i] = Iw2DCreateImage("rateButton_green.png");
+				buttonImageArray[i] = Iw2DCreateImage("rateRED(HD).png");
+				buttonImageArray_pressed[i] = Iw2DCreateImage("rateGREEN(HD).png");
 				button[i].setLocation( 50, 100 );
 				break;
 			case 1: // BACK button
-				buttonImageArray[i] = Iw2DCreateImage("backButton_red.png");
-				buttonImageArray_pressed[i] = Iw2DCreateImage("backButton_green.png");
+				//buttonImageArray[i] = Iw2DCreateImage("backButton_red.png");
+				//buttonImageArray_pressed[i] = Iw2DCreateImage("backButton_green.png");
+				buttonImageArray[i] = Iw2DCreateImage("Backbutton(redHD).png");
+				buttonImageArray_pressed[i] = Iw2DCreateImage("Backbutton(greenHD).png");
 				button[i].setLocation( 300, 100 );
 				break;
 			}
 			
 			buttonSprite[i].setImage( buttonImageArray[i] );
-			buttonSprite[i].setUWidth( 64 );
-			buttonSprite[i].setUHeight( 64 );
+			//buttonSprite[i].setUWidth( 64 );
+			//buttonSprite[i].setUHeight( 64 );
 			//buttonSprite[i].setSize( 64, 64 );
+			buttonSprite[i].setUWidth( 256 );
+			buttonSprite[i].setUHeight( 256 );
 			buttonSprite[i].setSize( IwGxGetScreenWidth() * .133, IwGxGetScreenWidth() * .133 );
 			
 			buttonSprite_pressed[i].setImage( buttonImageArray_pressed[i] );	
-			buttonSprite_pressed[i].setUWidth( 64 );
-			buttonSprite_pressed[i].setUHeight( 64 );
+			//buttonSprite_pressed[i].setUWidth( 64 );
+			//buttonSprite_pressed[i].setUHeight( 64 );
 			//buttonSprite_pressed[i].setSize( 50, 50 );
+			buttonSprite_pressed[i].setUWidth( 256 );
+			buttonSprite_pressed[i].setUHeight( 256 );
 			buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .104, IwGxGetScreenWidth() * .104 );
 
 			button[i].setUnpressedSprite( buttonSprite[i] );
@@ -224,7 +267,8 @@ void MenuScreen::Initialize( int16 t )
 	else if( type == TUTORIAL )
 	{
 		delete image;
-		image = Iw2DCreateImage("tutorial.png");
+		//image = Iw2DCreateImage("tutorial.png");
+		image = Iw2DCreateImage("Tutorial(HD).png");
 
 		// high score screen has back button, and Rate button
 		buttonCount = 4;
@@ -234,19 +278,23 @@ void MenuScreen::Initialize( int16 t )
 			switch( i )
 			{
 			case 0:
-				buttonImageArray[i] = Iw2DCreateImage("backButton_red.png");
-				buttonImageArray_pressed[i] = Iw2DCreateImage("backButton_green.png");
+				buttonImageArray[i] = Iw2DCreateImage("Backbutton(redHD).png");
+				buttonImageArray_pressed[i] = Iw2DCreateImage("Backbutton(greenHD).png");
 
 				buttonSprite[i].setImage( buttonImageArray[i] );
-				buttonSprite[i].setUWidth( 64 );
-				buttonSprite[i].setUHeight( 64 );
+				//buttonSprite[i].setUWidth( 64 );
+				//buttonSprite[i].setUHeight( 64 );
 				//buttonSprite[i].setSize( 64, 64 );
+				buttonSprite[i].setUWidth( 256 );
+				buttonSprite[i].setUHeight( 256 );
 				buttonSprite[i].setSize( IwGxGetScreenWidth() * .133, IwGxGetScreenWidth() * .133 );
 			
 				buttonSprite_pressed[i].setImage( buttonImageArray_pressed[i] );	
-				buttonSprite_pressed[i].setUWidth( 64 );
-				buttonSprite_pressed[i].setUHeight( 64 );
+				//buttonSprite_pressed[i].setUWidth( 64 );
+				//buttonSprite_pressed[i].setUHeight( 64 );
 				//buttonSprite_pressed[i].setSize( 50, 50 );
+				buttonSprite_pressed[i].setUWidth( 256 );
+				buttonSprite_pressed[i].setUHeight( 256 );
 				buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .104, IwGxGetScreenWidth() * .104 );
 
 				button[i].setUnpressedSprite( buttonSprite[i] );
@@ -255,19 +303,23 @@ void MenuScreen::Initialize( int16 t )
 				button[i].setTouchSize( IwGxGetScreenWidth() * .133, IwGxGetScreenWidth() * .133 );
 				break;
 			case 1:
-				buttonImageArray[i] = Iw2DCreateImage("buttonBasic.png");
-				buttonImageArray_pressed[i] = Iw2DCreateImage("buttonBasic.png");
+				buttonImageArray[i] = Iw2DCreateImage("ButtonBasic (HD).png");
+				buttonImageArray_pressed[i] = Iw2DCreateImage("ButtonBasic (HD).png");
 
 				buttonSprite[i].setImage( buttonImageArray[i] );
-				buttonSprite[i].setUWidth( 128 );
-				buttonSprite[i].setUHeight( 128 );
+				//buttonSprite[i].setUWidth( 128 );
+				//buttonSprite[i].setUHeight( 128 );
 				//buttonSprite[i].setSize( 64, 64 );
+				buttonSprite[i].setUWidth( 512 );
+				buttonSprite[i].setUHeight( 512 );
 				buttonSprite[i].setSize( IwGxGetScreenWidth() * .133, IwGxGetScreenWidth() * .133 );
-			
-				buttonSprite_pressed[i].setImage( buttonImageArray_pressed[i] );	
-				buttonSprite_pressed[i].setUWidth( 128 );
-				buttonSprite_pressed[i].setUHeight( 128 );
+				
+				buttonSprite_pressed[i].setImage( buttonImageArray_pressed[i] );
+				//buttonSprite_pressed[i].setUWidth( 128 );
+				//buttonSprite_pressed[i].setUHeight( 128 );
 				//buttonSprite_pressed[i].setSize( 50, 50 );
+				buttonSprite_pressed[i].setUWidth( 512 );
+				buttonSprite_pressed[i].setUHeight( 512 );
 				buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .104, IwGxGetScreenWidth() * .104 );
 
 				button[i].setUnpressedSprite( buttonSprite[i] );
@@ -276,19 +328,25 @@ void MenuScreen::Initialize( int16 t )
 				button[i].setTouchSize( IwGxGetScreenWidth() * .133, IwGxGetScreenWidth() * .133 );
 				break;
 			case 2:
-				buttonImageArray[i] = Iw2DCreateImage("buttonDanger.png");
-				buttonImageArray_pressed[i] = Iw2DCreateImage("buttonDanger.png");
+				//buttonImageArray[i] = Iw2DCreateImage("buttonDanger.png");
+				//buttonImageArray_pressed[i] = Iw2DCreateImage("buttonDanger.png");
+				buttonImageArray[i] = Iw2DCreateImage("ButtonDanger (HD).png");
+				buttonImageArray_pressed[i] = Iw2DCreateImage("ButtonDanger (HD).png");
 
 				buttonSprite[i].setImage( buttonImageArray[i] );
-				buttonSprite[i].setUWidth( 128 );
-				buttonSprite[i].setUHeight( 128 );
+				//buttonSprite[i].setUWidth( 128 );
+				//buttonSprite[i].setUHeight( 128 );
 				//buttonSprite[i].setSize( 64, 64 );
+				buttonSprite[i].setUWidth( 512 );
+				buttonSprite[i].setUHeight( 512 );
 				buttonSprite[i].setSize( IwGxGetScreenWidth() * .133, IwGxGetScreenWidth() * .133 );
 			
 				buttonSprite_pressed[i].setImage( buttonImageArray_pressed[i] );	
-				buttonSprite_pressed[i].setUWidth( 128 );
-				buttonSprite_pressed[i].setUHeight( 128 );
+				//buttonSprite_pressed[i].setUWidth( 128 );
+				//buttonSprite_pressed[i].setUHeight( 128 );
 				//buttonSprite_pressed[i].setSize( 50, 50 );
+				buttonSprite_pressed[i].setUWidth( 512 );
+				buttonSprite_pressed[i].setUHeight( 512 );
 				buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .104, IwGxGetScreenWidth() * .104 );
 
 				button[i].setUnpressedSprite( buttonSprite[i] );
@@ -297,19 +355,25 @@ void MenuScreen::Initialize( int16 t )
 				button[i].setTouchSize( IwGxGetScreenWidth() * .133, IwGxGetScreenWidth() * .133 );
 				break;
 			case 3:
-				buttonImageArray[i] = Iw2DCreateImage("buttonDefuse.png");
-				buttonImageArray_pressed[i] = Iw2DCreateImage("buttonDefuse.png");
+				//buttonImageArray[i] = Iw2DCreateImage("buttonDefuse.png");
+				//buttonImageArray_pressed[i] = Iw2DCreateImage("buttonDefuse.png");
+				buttonImageArray[i] = Iw2DCreateImage("ButtonDEFUSE(HD).png");
+				buttonImageArray_pressed[i] = Iw2DCreateImage("ButtonDEFUSE(HD).png");
 
 				buttonSprite[i].setImage( buttonImageArray[i] );
-				buttonSprite[i].setUWidth( 128 );
-				buttonSprite[i].setUHeight( 128 );
+				//buttonSprite[i].setUWidth( 128 );
+				//buttonSprite[i].setUHeight( 128 );
 				//buttonSprite[i].setSize( 64, 64 );
+				buttonSprite[i].setUWidth( 512 );
+				buttonSprite[i].setUHeight( 512 );
 				buttonSprite[i].setSize( IwGxGetScreenWidth() * .133, IwGxGetScreenWidth() * .133 );
 			
 				buttonSprite_pressed[i].setImage( buttonImageArray_pressed[i] );	
-				buttonSprite_pressed[i].setUWidth( 128 );
-				buttonSprite_pressed[i].setUHeight( 128 );
+				//buttonSprite_pressed[i].setUWidth( 128 );
+				//buttonSprite_pressed[i].setUHeight( 128 );
 				//buttonSprite_pressed[i].setSize( 50, 50 );
+				buttonSprite_pressed[i].setUWidth( 512 );
+				buttonSprite_pressed[i].setUHeight( 512 );
 				buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .104, IwGxGetScreenWidth() * .104 );
 
 				button[i].setUnpressedSprite( buttonSprite[i] );
@@ -323,10 +387,13 @@ void MenuScreen::Initialize( int16 t )
 	else if( type == QUIT_CONFIRMATION )
 	{
 		delete image;
+		//image = Iw2DCreateImage("quitconfirmation.png");
 		image = Iw2DCreateImage("quitconfirmation.png");
-		sprite.setUWidth( 480 );
-		sprite.setUHeight( 320 );
+		//sprite.setUWidth( 480 );
+		//sprite.setUHeight( 320 );
 		//sprite.setSize( 480, 320 );
+		sprite.setUWidth( 1024 );
+		sprite.setUHeight( 768 );
 		sprite.setSize( IwGxGetScreenWidth(), IwGxGetScreenHeight() );
 		sprite.setImage( image );
 		sprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
@@ -339,19 +406,25 @@ void MenuScreen::Initialize( int16 t )
 			switch( i )
 			{
 			case 0:
-				buttonImageArray[i] = Iw2DCreateImage("quitconfirmation_yes.png");
-				buttonImageArray_pressed[i] = Iw2DCreateImage("quitconfirmation_yes.png");
+				//buttonImageArray[i] = Iw2DCreateImage("quitconfirmation_yes.png");
+				//buttonImageArray_pressed[i] = Iw2DCreateImage("quitconfirmation_yes.png");
+				buttonImageArray[i] = Iw2DCreateImage("QuitconfirmationYES(HD).png");
+				buttonImageArray_pressed[i] = Iw2DCreateImage("QuitconfirmationYES(HD).png");
 
 				buttonSprite[i].setImage( buttonImageArray[i] );
-				buttonSprite[i].setUWidth( 128 );
-				buttonSprite[i].setUHeight( 128 );
+				//buttonSprite[i].setUWidth( 128 );
+				//buttonSprite[i].setUHeight( 128 );
 				//buttonSprite[i].setSize( 128, 128 );
+				buttonSprite[i].setUWidth( 512 );
+				buttonSprite[i].setUHeight( 512 );
 				buttonSprite[i].setSize( IwGxGetScreenWidth() * .267, IwGxGetScreenWidth() * .267 );
 			
 				buttonSprite_pressed[i].setImage( buttonImageArray_pressed[i] );	
-				buttonSprite_pressed[i].setUWidth( 128 );
-				buttonSprite_pressed[i].setUHeight( 128 );
+				//buttonSprite_pressed[i].setUWidth( 128 );
+				//buttonSprite_pressed[i].setUHeight( 128 );
 				//buttonSprite_pressed[i].setSize( 100, 100 );
+				buttonSprite_pressed[i].setUWidth( 512 );
+				buttonSprite_pressed[i].setUHeight( 512 );
 				buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .208, IwGxGetScreenWidth() * .208 );
 
 				button[i].setUnpressedSprite( buttonSprite[i] );
@@ -360,19 +433,25 @@ void MenuScreen::Initialize( int16 t )
 				button[i].setTouchSize( IwGxGetScreenWidth() * .267, IwGxGetScreenWidth() * .267 );
 				break;
 			case 1:
-				buttonImageArray[i] = Iw2DCreateImage("quitconfirmation_no.png");
-				buttonImageArray_pressed[i] = Iw2DCreateImage("quitconfirmation_no.png");
+				//buttonImageArray[i] = Iw2DCreateImage("quitconfirmation_no.png");
+				//buttonImageArray_pressed[i] = Iw2DCreateImage("quitconfirmation_no.png");
+				buttonImageArray[i] = Iw2DCreateImage("QuitconfirmationNO(HD).png");
+				buttonImageArray_pressed[i] = Iw2DCreateImage("QuitconfirmationNO(HD).png");
 
 				buttonSprite[i].setImage( buttonImageArray[i] );
-				buttonSprite[i].setUWidth( 128 );
-				buttonSprite[i].setUHeight( 128 );
+				//buttonSprite[i].setUWidth( 128 );
+				//buttonSprite[i].setUHeight( 128 );
 				//buttonSprite[i].setSize( 128, 128 );
+				buttonSprite[i].setUWidth( 512 );
+				buttonSprite[i].setUHeight( 512 );
 				buttonSprite[i].setSize( IwGxGetScreenWidth() * .267, IwGxGetScreenWidth() * .267 );
 			
 				buttonSprite_pressed[i].setImage( buttonImageArray_pressed[i] );	
-				buttonSprite_pressed[i].setUWidth( 128 );
-				buttonSprite_pressed[i].setUHeight( 128 );
+				//buttonSprite_pressed[i].setUWidth( 128 );
+				//buttonSprite_pressed[i].setUHeight( 128 );
 				//buttonSprite_pressed[i].setSize( 100, 100 );
+				buttonSprite_pressed[i].setUWidth( 512 );
+				buttonSprite_pressed[i].setUHeight( 512 );
 				buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .208, IwGxGetScreenWidth() * .208 );
 
 				button[i].setUnpressedSprite( buttonSprite[i] );
@@ -386,10 +465,13 @@ void MenuScreen::Initialize( int16 t )
 	else if( type == NEW_STORY_CONFIRMATION )
 	{
 		delete image;
-		image = Iw2DCreateImage("newstoryconfirmation.png");
-		sprite.setUWidth( 480 );
-		sprite.setUHeight( 320 );
+		//image = Iw2DCreateImage("newstoryconfirmation.png");
+		image = Iw2DCreateImage("Newstoryconfirmation(HD).png");
+		//sprite.setUWidth( 480 );
+		//sprite.setUHeight( 320 );
 		//sprite.setSize( 480, 320 );
+		sprite.setUWidth( 1024 );
+		sprite.setUHeight( 768 );
 		sprite.setSize( IwGxGetScreenWidth(), IwGxGetScreenHeight() );
 		sprite.setImage( image );
 		sprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
@@ -402,19 +484,25 @@ void MenuScreen::Initialize( int16 t )
 			switch( i )
 			{
 			case 0:
-				buttonImageArray[i] = Iw2DCreateImage("quitconfirmation_yes.png");
-				buttonImageArray_pressed[i] = Iw2DCreateImage("quitconfirmation_yes.png");
+				//buttonImageArray[i] = Iw2DCreateImage("quitconfirmation_yes.png");
+				//buttonImageArray_pressed[i] = Iw2DCreateImage("quitconfirmation_yes.png");
+				buttonImageArray[i] = Iw2DCreateImage("QuitconfirmationYES(HD).png");
+				buttonImageArray_pressed[i] = Iw2DCreateImage("QuitconfirmationYES(HD).png");
 
 				buttonSprite[i].setImage( buttonImageArray[i] );
-				buttonSprite[i].setUWidth( 128 );
-				buttonSprite[i].setUHeight( 128 );
+				//buttonSprite[i].setUWidth( 128 );
+				//buttonSprite[i].setUHeight( 128 );
 				//buttonSprite[i].setSize( 128, 128 );
+				buttonSprite[i].setUWidth( 512 );
+				buttonSprite[i].setUHeight( 512 );
 				buttonSprite[i].setSize( IwGxGetScreenWidth() * .267, IwGxGetScreenWidth() * .267 );
 			
 				buttonSprite_pressed[i].setImage( buttonImageArray_pressed[i] );	
-				buttonSprite_pressed[i].setUWidth( 128 );
-				buttonSprite_pressed[i].setUHeight( 128 );
+				//buttonSprite_pressed[i].setUWidth( 128 );
+				//buttonSprite_pressed[i].setUHeight( 128 );
 				//buttonSprite_pressed[i].setSize( 100, 100 );
+				buttonSprite_pressed[i].setUWidth( 512 );
+				buttonSprite_pressed[i].setUHeight( 512 );
 				buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .208, IwGxGetScreenWidth() * .208 );
 
 				button[i].setUnpressedSprite( buttonSprite[i] );
@@ -424,19 +512,25 @@ void MenuScreen::Initialize( int16 t )
 
 				break;
 			case 1:
-				buttonImageArray[i] = Iw2DCreateImage("quitconfirmation_no.png");
-				buttonImageArray_pressed[i] = Iw2DCreateImage("quitconfirmation_no.png");
+				//buttonImageArray[i] = Iw2DCreateImage("quitconfirmation_no.png");
+				//buttonImageArray_pressed[i] = Iw2DCreateImage("quitconfirmation_no.png");
+				buttonImageArray[i] = Iw2DCreateImage("QuitconfirmationNO(HD).png");
+				buttonImageArray_pressed[i] = Iw2DCreateImage("QuitconfirmationNO(HD).png");
 
 				buttonSprite[i].setImage( buttonImageArray[i] );
-				buttonSprite[i].setUWidth( 128 );
-				buttonSprite[i].setUHeight( 128 );
+				//buttonSprite[i].setUWidth( 128 );
+				//buttonSprite[i].setUHeight( 128 );
 				//buttonSprite[i].setSize( 128, 128 );
+				buttonSprite[i].setUWidth( 512 );
+				buttonSprite[i].setUHeight( 512 );
 				buttonSprite[i].setSize( IwGxGetScreenWidth() * .267, IwGxGetScreenWidth() * .267 );
 			
 				buttonSprite_pressed[i].setImage( buttonImageArray_pressed[i] );	
-				buttonSprite_pressed[i].setUWidth( 128 );
-				buttonSprite_pressed[i].setUHeight( 128 );
+				//buttonSprite_pressed[i].setUWidth( 128 );
+				//buttonSprite_pressed[i].setUHeight( 128 );
 				//buttonSprite_pressed[i].setSize( 100, 100 );
+				buttonSprite_pressed[i].setUWidth( 512 );
+				buttonSprite_pressed[i].setUHeight( 512 );
 				buttonSprite_pressed[i].setSize( IwGxGetScreenWidth() * .208, IwGxGetScreenWidth() * .208 );
 
 				button[i].setUnpressedSprite( buttonSprite[i] );
@@ -450,10 +544,13 @@ void MenuScreen::Initialize( int16 t )
 	else if( type == QUESTION_MARK )
 	{
 		delete image;
-		image = Iw2DCreateImage("questionmarkinfo.png");
-		sprite.setUWidth( 480 );
-		sprite.setUHeight( 320 );
+		//image = Iw2DCreateImage("questionmarkinfo.png");
+		image = Iw2DCreateImage("questionmarkinfo(HD).png");
+		//sprite.setUWidth( 480 );
+		//sprite.setUHeight( 320 );
 		//sprite.setSize( 480, 320 );
+		sprite.setUWidth( 1024 );
+		sprite.setUHeight( 768 );
 		sprite.setSize( IwGxGetScreenWidth(), IwGxGetScreenHeight() );
 		sprite.setImage( image );
 		sprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );

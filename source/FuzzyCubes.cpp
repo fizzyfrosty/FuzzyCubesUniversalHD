@@ -6490,8 +6490,13 @@ void SingleTouchMotion( s3ePointerMotionEvent* event )
 
 void Init()
 {
+	// android
 	// initialize orientation for android, take out for ios
-	s3eSurfaceSetInt(S3E_SURFACE_DEVICE_ORIENTATION_LOCK, 4);
+	if( s3eDeviceGetInt( S3E_DEVICE_OS ) != S3E_OS_ID_IPHONE )
+	{
+		s3eSurfaceSetInt(S3E_SURFACE_DEVICE_ORIENTATION_LOCK, 4);
+	}
+		
 
 
 	IwGxInit(); // for rendering 3d/2d
@@ -6587,7 +6592,7 @@ void Init()
 	// Set field of view
 	//IwGxSetPerspMul(0xa0);
 	// resolution based
-	// here
+	
 	/*
 	For phone devices, keep cameradepth but scale the z-depth of frustrum
 	For iPad, scale the cameradepth but not the zdepth?? Need to test.
@@ -8681,7 +8686,7 @@ bool Update()
 					// hide tutorial donotdie
 					if( triggeredShowTutorialDoNotDie == true )
 					{
-						s3eTimerSetTimer( 1500, triggerHideTutorialDoNotDie, 0 );
+						s3eTimerSetTimer( 1000, triggerHideTutorialDoNotDie, 0 );
 						triggeredHideTutorialDoNotDie = true;
 						triggeredShowTutorialDoNotDie = false;
 					}
@@ -8769,7 +8774,7 @@ bool Update()
 					// hide tutorial donotstack
 					if( triggeredShowTutorialDoNotStack == true && triggeredHideTutorialDoNotStack == false )
 					{
-						s3eTimerSetTimer( 1500, triggerHideTutorialDoNotStack, 0 );
+						s3eTimerSetTimer( 1000, triggerHideTutorialDoNotStack, 0 );
 						triggeredHideTutorialDoNotStack = true;
 						triggeredShowTutorialDoNotStack = false;
 					}
@@ -11393,7 +11398,7 @@ void Render()
 					plusOneFuzzySprite.resetAndPlayAnimation();
 				}
 			}
-			// here
+			
 			
 			// render LIVES. Only render for play_game
 			livesSprite.Render();
@@ -29312,7 +29317,7 @@ void RotateActiveShadows()
 void InitializeMenu()
 {
 	//cameraDepth = -s * ((-1.0 * width) / 272 + 268 / 17.0);
-	// here
+	
 	cameraDepth = -s * 14;
 
 	qfiMode = false;
@@ -30180,7 +30185,7 @@ void InitializeDifficulty( int16 d )
 	// this is formula for zoom depth when depth = s*7 at height = 320, and depth = s*5 at height = 768
 	// set camera depth
 	//cameraDepth = -s * (-1.0 * height / 300 + 59 / 7.0);
-	// here
+	
 	cameraDepth = -s * 7;
 	
 
@@ -31645,37 +31650,49 @@ void LoadBackgroundAndOtherInit()
 
 	LoadSoundData();
 
-	splashImage = Iw2DCreateImage("splash.png");
-	splashSprite.setUWidth( 480 );
-	splashSprite.setUHeight( 320 );
+	//splashImage = Iw2DCreateImage("splash.png");
+	//splashSprite.setUWidth( 480 );
+	//splashSprite.setUHeight( 320 );
 	//splashSprite.setSize( 480, 320 );
+	splashImage = Iw2DCreateImage("splash(HD).png");
+	splashSprite.setUWidth( 1024 );
+	splashSprite.setUHeight( 768 );
 	splashSprite.setSize( width, height );
 	splashSprite.setImage( splashImage );
 	splashSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 
-	titleImage = Iw2DCreateImage("title.png");
-	titleSprite.setUWidth( 480 );
-	titleSprite.setUHeight( 320 );
+	//titleImage = Iw2DCreateImage("title.png");
+	//titleSprite.setUWidth( 480 );
+	//titleSprite.setUHeight( 320 );
 	//titleSprite.setSize( 480, 320 );
+	titleImage = Iw2DCreateImage("Title(HD).png");
+	titleSprite.setUWidth( 1024 );
+	titleSprite.setUHeight( 768 );
 	titleSprite.setSize( width, height );
 	titleSprite.setImage( titleImage );
 	titleSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 	
 	// load loading screen for new game
-	loadingScreen.setUWidth( 480 );
-	loadingScreen.setUHeight( 320 );
+	//loadingScreen.setUWidth( 480 );
+	//loadingScreen.setUHeight( 320 );
 	//loadingScreen.setSize( 480, 320 );
+	loadingScreen.setUWidth( 1024 );
+	loadingScreen.setUHeight( 768 );
 	loadingScreen.setSize( width, height );
-	loadingImage = Iw2DCreateImage("loading2.png");
+	//loadingImage = Iw2DCreateImage("loading2.png");
+	loadingImage = Iw2DCreateImage("Loadingscreen1(HD).png");
 	loadingScreen.setImage( loadingImage );
 	loadingScreen.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 
 	// loading clock animation
-	loadingIconSprite.setUWidth( 128 );
-	loadingIconSprite.setUHeight( 128 );
+	//loadingIconSprite.setUWidth( 128 );
+	//loadingIconSprite.setUHeight( 128 );
 	//loadingIconSprite.setSize( 128, 128 );
+	loadingIconSprite.setUWidth( 256 );
+	loadingIconSprite.setUHeight( 256 );
 	loadingIconSprite.setSize( width * .27, width * .27 );
-	loadingIconImage = Iw2DCreateImage( "loadingIcon.png" );
+	//loadingIconImage = Iw2DCreateImage( "loadingIcon.png" );
+	loadingIconImage = Iw2DCreateImage( "LoadingIcon(HD).png" );
 	loadingIconSprite.setImage( loadingIconImage );
 	loadingIconSprite.setDelayTime( 2 );
 	loadingIconSprite.setTotalFrames( 15 );
@@ -31692,25 +31709,32 @@ void LoadBackgroundAndOtherInit()
 		switch( i )
 		{
 		case 0:
-			starTexture[i]->LoadFromFile("yellowStar_small.png");
+			//starTexture[i]->LoadFromFile("yellowStar_small.png");
+			starTexture[i]->LoadFromFile("Yellowstar(HD).png");
 			break;
 		case 1:
-			starTexture[i]->LoadFromFile("blueStar_small.png");
+			//starTexture[i]->LoadFromFile("blueStar_small.png");
+			starTexture[i]->LoadFromFile("BlueStar (HD).png");
 			break;
 		case 2:
-			starTexture[i]->LoadFromFile("stardust_red2.png");
+			//starTexture[i]->LoadFromFile("stardust_red2.png");
+			starTexture[i]->LoadFromFile("stardustRED(HD1).png");
 			break;
 		case 3:
-			starTexture[i]->LoadFromFile("stardust_green2.png");
+			//starTexture[i]->LoadFromFile("stardust_green2.png");
+			starTexture[i]->LoadFromFile("stardustGREEN(HD).png");
 			break;
 		case 4:
-			starTexture[i]->LoadFromFile("stardust_blue2.png");
+			//starTexture[i]->LoadFromFile("stardust_blue2.png");
+			starTexture[i]->LoadFromFile("stardustBLUE(HD).png");
 			break;
 		case 5:
-			starTexture[i]->LoadFromFile("stardust_yellow2.png");
+			//starTexture[i]->LoadFromFile("stardust_yellow2.png");
+			starTexture[i]->LoadFromFile("stardustYELLOW(HD).png");
 			break;
 		case 6:
-			starTexture[i]->LoadFromFile("stardust_white.png");
+			//starTexture[i]->LoadFromFile("stardust_white.png");
+			starTexture[i]->LoadFromFile("stardustWHITE(HD).png");
 			break;
 		}
 		starTexture[i]->Upload();
@@ -31941,12 +31965,15 @@ void LoadMenuData()
 	Bubbly.Initialize( Fuzzy3D::BUBBLY );DisplayLoading();
 
 	// initialize Trophy Screen background for displaying message
-	trophyMessageBackgroundImage = Iw2DCreateImage("trophyMessageBackground.png");DisplayLoading();
+	//trophyMessageBackgroundImage = Iw2DCreateImage("trophyMessageBackground.png");DisplayLoading();
+	trophyMessageBackgroundImage = Iw2DCreateImage("trophyMessageBackground(HD).png");DisplayLoading();
 	trophyMessageBackgroundSprite.setImage( trophyMessageBackgroundImage );
 	//trophyMessageBackgroundSprite.setSize( 480, 320 );
 	trophyMessageBackgroundSprite.setSize( width, height );
-	trophyMessageBackgroundSprite.setUWidth( 480 );
-	trophyMessageBackgroundSprite.setUHeight( 320 );
+	//trophyMessageBackgroundSprite.setUWidth( 480 );
+	//trophyMessageBackgroundSprite.setUHeight( 320 );
+	trophyMessageBackgroundSprite.setUWidth( 1024 );
+	trophyMessageBackgroundSprite.setUHeight( 768 );
 	trophyMessageBackgroundSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 
 	// initialize trophy messages
@@ -31955,59 +31982,63 @@ void LoadMenuData()
 		switch( i )
 		{
 		case 0:
-			trophyMessageImage[i] = Iw2DCreateImage("trophymessage_100k.png");DisplayLoading();			
+			trophyMessageImage[i] = Iw2DCreateImage("TrophyMessage100k(HD).png");DisplayLoading();			
 			break;
 		case 1:
-			trophyMessageImage[i] = Iw2DCreateImage("trophymessage_500k.png");DisplayLoading();
+			trophyMessageImage[i] = Iw2DCreateImage("TrophyMessage500k(HD).png");DisplayLoading();
 			break;
 		case 2:
-			trophyMessageImage[i] = Iw2DCreateImage("trophymessage_rate.png");DisplayLoading();
+			trophyMessageImage[i] = Iw2DCreateImage("TrophyMessagesRATE(HD).png");DisplayLoading();
 			break;
 		case 3:
-			trophyMessageImage[i] = Iw2DCreateImage("trophymessage_1m.png");DisplayLoading();
+			trophyMessageImage[i] = Iw2DCreateImage("TrophyMessage1m(HD).png");DisplayLoading();
 			break;
 		case 4:
-			trophyMessageImage[i] = Iw2DCreateImage("trophymessage_hero.png");DisplayLoading();
+			trophyMessageImage[i] = Iw2DCreateImage("TrophyMessageHERO(HD).png");DisplayLoading();
 			break;
 		case 5:
-			trophyMessageImage[i] = Iw2DCreateImage("trophymessage_100k_achieved.png");DisplayLoading();
+			trophyMessageImage[i] = Iw2DCreateImage("TrophyMessage100k-Earned(HD).png");DisplayLoading();
 			break;
 		case 6:
-			trophyMessageImage[i] = Iw2DCreateImage("trophymessage_500k_achieved.png");DisplayLoading();
+			trophyMessageImage[i] = Iw2DCreateImage("TrophyMessage500k-earned(HD).png");DisplayLoading();
 			break;
 		case 7:
-			trophyMessageImage[i] = Iw2DCreateImage("trophymessage_rate_achieved.png");DisplayLoading();
+			trophyMessageImage[i] = Iw2DCreateImage("TrophyMessagesRATE-earned(HD).png");DisplayLoading();
 			break;
 		case 8:
-			trophyMessageImage[i] = Iw2DCreateImage("trophymessage_1m_achieved.png");DisplayLoading();
+			trophyMessageImage[i] = Iw2DCreateImage("TrophyMessage1m-earned(HD).png");DisplayLoading();
 			break;
 		case 9:
-			trophyMessageImage[i] = Iw2DCreateImage("trophymessage_hero_achieved.png");DisplayLoading();
+			trophyMessageImage[i] = Iw2DCreateImage("TrophyMessageHERO-earned(HD).png");DisplayLoading();
 			break;
 		case 10:
-			trophyMessageImage[i] = Iw2DCreateImage("trophymessage_no_connection.png");DisplayLoading();
+			trophyMessageImage[i] = Iw2DCreateImage("TrophyMessagesNOCONNECTION(HD).png");DisplayLoading();
 			break;
 		}
 	}
 
 	//trophyMessageSprite.setSize( 480, 320 );
 	trophyMessageSprite.setSize( width, height );
-	trophyMessageSprite.setUWidth( 480 );
-	trophyMessageSprite.setUHeight( 320 );
+	//trophyMessageSprite.setUWidth( 480 );
+	//trophyMessageSprite.setUHeight( 320 );
+	trophyMessageSprite.setUWidth( 1024 );
+	trophyMessageSprite.setUHeight( 768 );
 	trophyMessageSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 
 	// MENU TITLE IMAGES
 	//IwGetResManager()->LoadGroup("menuData.group");
 	//menuDataGroup = IwGetResManager()->GetGroupNamed("menuData");	
 
-	swipeGlowImage = Iw2DCreateImage("swipe_glow.png");DisplayLoading();
-	swipeArrowsImage = Iw2DCreateImage("swipe.png");DisplayLoading();
+	swipeGlowImage = Iw2DCreateImage("Swipetoselect3TOUCHD(HD).png");DisplayLoading();
+	swipeArrowsImage = Iw2DCreateImage("Swipetoselect3(HD).png");DisplayLoading();
 	//menuTitleImage = Iw2DCreateImageResource("menuTitle");
 	swipeArrowsSprite.setImage( swipeArrowsImage );
 	//swipeArrowsSprite.setSize( 240, 70 );
-	swipeArrowsSprite.setSize( width * .5, height * 0.21875 );
-	swipeArrowsSprite.setUWidth( 300 );
-	swipeArrowsSprite.setUHeight( 96 );
+	swipeArrowsSprite.setSize( width * .5, height * 0.31875 );
+	//swipeArrowsSprite.setUWidth( 300 );
+	//swipeArrowsSprite.setUHeight( 96 );
+	swipeArrowsSprite.setUWidth( 700 );
+	swipeArrowsSprite.setUHeight( 292 );
 	//swipeArrowsSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight() - 32 );
 	swipeArrowsSprite.setPosition( width/2, height * .9 );
 
@@ -32198,70 +32229,70 @@ void LoadLevelData()
 			switch( i )
 			{
 			case 0:
-				tutorialImages[i] = Iw2DCreateImage("tutorialmessage00.png");DisplayLoading();
+				tutorialImages[i] = Iw2DCreateImage("Tutorialmessage00(HD).png");DisplayLoading();
 				break;
 			case 1:
-				tutorialImages[i] = Iw2DCreateImage("tutorialmessage01.png");DisplayLoading();
+				tutorialImages[i] = Iw2DCreateImage("Tutorialmessage01(HD).png");DisplayLoading();
 				break;
 			case 2:
-				tutorialImages[i] = Iw2DCreateImage("tutorialmessage02.png");DisplayLoading();
+				tutorialImages[i] = Iw2DCreateImage("Tutorialmessage02(HD).png");DisplayLoading();
 				break;
 			case 3:
-				tutorialImages[i] = Iw2DCreateImage("tutorialmessage03.png");DisplayLoading();
+				tutorialImages[i] = Iw2DCreateImage("Tutorialmessage03(HD).png");DisplayLoading();
 				break;
 			case 4:
-				tutorialImages[i] = Iw2DCreateImage("tutorialmessage04.png");DisplayLoading();
+				tutorialImages[i] = Iw2DCreateImage("Tutorialmessage04(HD).png");DisplayLoading();
 				break;
 			case 5:
-				tutorialImages[i] = Iw2DCreateImage("tutorialmessage05.png");DisplayLoading();
+				tutorialImages[i] = Iw2DCreateImage("Tutorialmessage05(HD).png");DisplayLoading();
 				break;
 			case 6:
-				tutorialImages[i] = Iw2DCreateImage("tutorialmessage06.png");DisplayLoading();
+				tutorialImages[i] = Iw2DCreateImage("Tutorialmessage06(HD).png");DisplayLoading();
 				break;
 			case 7:
-				tutorialImages[i] = Iw2DCreateImage("tutorialmessage07.png");DisplayLoading();
+				tutorialImages[i] = Iw2DCreateImage("Tutorialmessage07(HD).png");DisplayLoading();
 				break;
 			case 8:
-				tutorialImages[i] = Iw2DCreateImage("tutorialmessage08.png");DisplayLoading();
+				tutorialImages[i] = Iw2DCreateImage("Tutorialmessage08(HD).png");DisplayLoading();
 				break;
 			case 9:
-				tutorialImages[i] = Iw2DCreateImage("tutorialmessage09.png");DisplayLoading();
+				tutorialImages[i] = Iw2DCreateImage("Tutorialmessage09(HD).png");DisplayLoading();
 				break;
 			case 10:
-				tutorialImages[i] = Iw2DCreateImage("tutorialmessage10.png");DisplayLoading();
+				tutorialImages[i] = Iw2DCreateImage("Tutorialmessage10(HD).png");DisplayLoading();
 				break;
 			case 11:
-				tutorialImages[i] = Iw2DCreateImage("tutorialmessage11.png");DisplayLoading();
+				tutorialImages[i] = Iw2DCreateImage("Tutorialmessage11(HD).png");DisplayLoading();
 				break;
 			}
 
-			tutorialSprites[i].setUWidth( 128 );
-			tutorialSprites[i].setUHeight( 128 );
+			tutorialSprites[i].setUWidth( 512 );
+			tutorialSprites[i].setUHeight( 512 );
 			//tutorialSprites[i].setSize( 100, 100 );
 			tutorialSprites[i].setSize( width * .208, width * .208 );
 			tutorialSprites[i].setImage( tutorialImages[i] );
-
+			
 			// this is exception for plane shift image
 			if( i == 3 || i == 4 || i == 10 )
 			{
-				tutorialSprites[i].setUWidth( 480 );
-				tutorialSprites[i].setUHeight( 320 );
+				tutorialSprites[i].setUWidth( 1024 );
+				tutorialSprites[i].setUHeight( 768 );
 				//tutorialSprites[i].setSize( 480, 320 );
 				tutorialSprites[i].setSize( width, height );
 				tutorialSprites[i].setImage( tutorialImages[i] );
 			}
 			else if( i == 9 ) // this is the donotdie image
 			{
-				tutorialSprites[i].setUWidth( 256 );
-				tutorialSprites[i].setUHeight( 256 );
+				tutorialSprites[i].setUWidth( 512 );
+				tutorialSprites[i].setUHeight( 512 );
 				//tutorialSprites[i].setSize( 256, 256 );
 				tutorialSprites[i].setSize( width * .533, width * .533 );
 				tutorialSprites[i].setImage( tutorialImages[i] );
 			}
-			else if( i == 11 )
+			else if( i == 11 ) // this is do not stack cubes image
 			{
-				tutorialSprites[i].setUWidth( 256 );
-				tutorialSprites[i].setUHeight( 256 );
+				tutorialSprites[i].setUWidth( 512 );
+				tutorialSprites[i].setUHeight( 512 );
 				//tutorialSprites[i].setSize( 200, 200 );
 				tutorialSprites[i].setSize( width * .416, width * .416 );
 				tutorialSprites[i].setImage( tutorialImages[i] );
@@ -32286,17 +32317,21 @@ void LoadLevelData()
 	bombDefusedSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 
 	// bomb alert
-	bombAlertSprite.setUWidth( 64 );
-	bombAlertSprite.setUHeight( 64 );
+	bombAlertSprite.setUWidth( 128 );
+	bombAlertSprite.setUHeight( 128 );
+	//bombAlertSprite.setUWidth( 64 );
+	//bombAlertSprite.setUHeight( 64 );
 	//bombAlertSprite.setSize( 64, 64 );
 	bombAlertSprite.setSize( width * .133, width * .133 );
-	bombAlertImage = Iw2DCreateImage( "bomb_alert.png" );DisplayLoading();
+	//bombAlertImage = Iw2DCreateImage( "bomb_alert.png" );DisplayLoading();
+	bombAlertImage = Iw2DCreateImage( "Bombalert-Fbomb (HD).png" );DisplayLoading();
 	bombAlertSprite.setImage( bombAlertImage );
 	bombAlertSprite.setDelayTime( 1 );
 	bombAlertSprite.setTotalFrames( 30 );
 	bombAlertSprite.setPosition( IwGxGetScreenWidth() * 2/3 - width*.042, 0+height*.156 );
 
-	bombAlertImage_wtf = Iw2DCreateImage( "bomb_alert_wtf2.png" );DisplayLoading();
+	//bombAlertImage_wtf = Iw2DCreateImage( "bomb_alert_wtf2.png" );DisplayLoading();
+	bombAlertImage_wtf = Iw2DCreateImage( "Bombalert-WTF (HD).png" );DisplayLoading();
 
 
 	// level bar	
@@ -32315,14 +32350,6 @@ void LoadLevelData()
 	progressBarFrameSprite.setSize( width * .229, height * 0.063 );
 	progressBarFrameImage = Iw2DCreateImage( "hud_levelbarframe.png" );DisplayLoading();
 	progressBarFrameSprite.setImage( progressBarFrameImage );
-
-	// SCORE images
-	pointImage50 = Iw2DCreateImage("50.png");DisplayLoading();
-	pointImage500 = Iw2DCreateImage("500.png");DisplayLoading();
-	pointImage5000 = Iw2DCreateImage("5000.png");DisplayLoading();
-	pointImage100 = Iw2DCreateImage("100.png");DisplayLoading();
-	pointImage1000 = Iw2DCreateImage("1000.png");DisplayLoading();
-	pointImage10000 = Iw2DCreateImage("10000.png");DisplayLoading();
 
 	// pixie dust images
 	pixieImage = Iw2DCreateImage("pixiedust.png");DisplayLoading();
@@ -32344,11 +32371,13 @@ void LoadLevelData()
 	DisplayLoading();
 
 	// load game over sprite
-	gameOverSprite.setUWidth( 480 );
-	gameOverSprite.setUHeight( 240 );
+	//gameOverSprite.setUWidth( 480 );
+	//gameOverSprite.setUHeight( 240 );
 	//gameOverSprite.setSize( 480, 240 );
+	gameOverSprite.setUWidth( 1024 );
+	gameOverSprite.setUHeight( 512 );
 	gameOverSprite.setSize( width, height * .75 );
-	gameOverImage = Iw2DCreateImage( "gameover.png" );DisplayLoading();
+	gameOverImage = Iw2DCreateImage( "gameover(HD).png" );DisplayLoading();
 	gameOverSprite.setImage( gameOverImage );
 	gameOverSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2);
 
@@ -32432,14 +32461,16 @@ void LoadLevelData()
 	congratsSpriteGreat.setTotalFrames( 30 );
 
 	// initialize minus one fuzzy
-	minusOneFuzzyImage = Iw2DCreateImage( "minus_one_fuzzy.png" );DisplayLoading();
+	minusOneFuzzyImage = Iw2DCreateImage( "MinusoneFuzzy(HD).png" );DisplayLoading();
 	for( int i = 0; i < 6; i++ )
 	{
 		for( int j = 0; j < 9; j++ )
 		{
-			minusOneFuzzySprite[i][j].setUWidth( 64 );
-			minusOneFuzzySprite[i][j].setUHeight( 64 );
+			//minusOneFuzzySprite[i][j].setUWidth( 64 );
+			//minusOneFuzzySprite[i][j].setUHeight( 64 );
 			//minusOneFuzzySprite[i][j].setSize( 64, 64 );
+			minusOneFuzzySprite[i][j].setUWidth( 128 );
+			minusOneFuzzySprite[i][j].setUHeight( 128 );
 			minusOneFuzzySprite[i][j].setSize( width * .133, width * .133 );
 
 			minusOneFuzzySprite[i][j].setImage( minusOneFuzzyImage );
@@ -32452,15 +32483,33 @@ void LoadLevelData()
 		}
 	}
 
+		// SCORE images
+	/*
+	pointImage50 = Iw2DCreateImage("50.png");DisplayLoading();
+	pointImage500 = Iw2DCreateImage("500.png");DisplayLoading();
+	pointImage5000 = Iw2DCreateImage("5000.png");DisplayLoading();
+	pointImage100 = Iw2DCreateImage("100.png");DisplayLoading();
+	pointImage1000 = Iw2DCreateImage("1000.png");DisplayLoading();
+	pointImage10000 = Iw2DCreateImage("10000.png");DisplayLoading();
+	*/
+
+	pointImage50 = Iw2DCreateImage("50 (HD).png");DisplayLoading();
+	pointImage500 = Iw2DCreateImage("500 (HD2).png");DisplayLoading();
+	pointImage5000 = Iw2DCreateImage("5000 (HD2).png");DisplayLoading();
+	pointImage100 = Iw2DCreateImage("100 (HD2).png");DisplayLoading();
+	pointImage1000 = Iw2DCreateImage("1000 (HD).png");DisplayLoading();
+	pointImage10000 = Iw2DCreateImage("10000 (HD).png");DisplayLoading();
+	
 	// initialize all the plus points sprites
 	for( int i = 0; i < 7; i++ )
 	{
 		for( int j = 0; j < 4; j++ )
-		{			
-			pointSprites[i][j].setUWidth( 64 );
-			pointSprites[i][j].setUHeight( 64 );
+		{
+			pointSprites[i][j].setUWidth( 128 );
+			pointSprites[i][j].setUHeight( 128 );
 			//pointSprites[i][j].setSize( 64, 64 ); // not affected. hardcoded sizes for specific points
-			pointSprites[i][j].setSize( width * .133, width * .133 ); // not affected. hardcoded sizes for specific points
+			//pointSprites[i][j].setSize( width * .133, width * .133 ); // not affected. hardcoded sizes for specific points
+			pointSprites[i][j].setSize( 128, 128 ); // not affected. hardcoded sizes for specific points
 
 			pointSprites[i][j].set100PointsImage( pointImage100 );
 			pointSprites[i][j].set1000PointsImage( pointImage1000 );
@@ -32503,16 +32552,17 @@ void LoadLevelData()
 			//fuzzyTexture[i]->LoadFromFile("fuzzy_chromakey.png");
 			//fuzzyTexture[i]->LoadFromFile("fuzzy_Sparky.png");
 			fuzzyTexture[i]->LoadFromFile("fuzzy_Sparky_small.png");
+			//fuzzyTexture[i]->LoadFromFile("fuzzy_Sparky.png");
 			break;
 		case 1:
 			//fuzzyTexture[i]->LoadFromFile("fuzzy02_scared_chromakey.png");
+			fuzzyTexture[i]->LoadFromFile("fuzzy_Bubbly_small.png");
 			//fuzzyTexture[i]->LoadFromFile("fuzzy_Bubbly.png");
-			fuzzyTexture[i]->LoadFromFile("fuzzy_bubbly_small.png");
 			break;
 		case 2:
 			//fuzzyTexture[i]->LoadFromFile("fuzzy02_scared_chromakey.png");
-			//fuzzyTexture[i]->LoadFromFile("fuzzy_Flakey.png");
 			fuzzyTexture[i]->LoadFromFile("fuzzy_Flakey_small.png");
+			//fuzzyTexture[i]->LoadFromFile("fuzzy_Flakey.png");
 		break;
 		}
 
@@ -32546,6 +32596,7 @@ void LoadLevelData()
 		{
 		case 0:
 			fuzzyExplodeTexture[i]->LoadFromFile("fuzzy_boom2.png");
+			//fuzzyExplodeTexture[i]->LoadFromFile("fuzzy_boom.png");
 			//fuzzyExplodeTexture[i]->LoadFromFile("fuzzy_death_explode.png");
 			break;
 		case 1:
@@ -32613,6 +32664,7 @@ void LoadLevelData()
 	bombDefuseMaterial = new CIwMaterial;
 	bombDefuseTexture = new CIwTexture;
 	bombDefuseTexture->LoadFromFile( "fuzzy_implosion2.png" );
+	//bombDefuseTexture->LoadFromFile( "fuzzy_implosion.png" );
 	bombDefuseTexture->Upload();
 	bombDefuseMaterial->SetTexture( bombDefuseTexture );
 	bombDefuseMaterial->SetColAmbient( 255, 255, 255, 255 );
@@ -32621,6 +32673,7 @@ void LoadLevelData()
 	bombExplodeMaterial = new CIwMaterial;
 	bombExplodeTexture = new CIwTexture;
 	bombExplodeTexture->LoadFromFile( "fuzzy_boom2.png" );
+	//bombExplodeTexture->LoadFromFile( "fuzzy_boom.png" );
 	bombExplodeTexture->Upload();
 	bombExplodeMaterial->SetTexture( bombExplodeTexture );
 	bombExplodeMaterial->SetColAmbient( 255, 255, 255, 255 );
@@ -32637,23 +32690,24 @@ void LoadLevelData()
 	
 
 	// Material Textures
+	// these are HD graphics. 128 pixels
 	cubeTextureBlue = new CIwTexture;
-	cubeTextureBlue->LoadFromFile("cubeTextureBlue.png");DisplayLoading();
+	cubeTextureBlue->LoadFromFile("cubetexture-blue.png");DisplayLoading();
 	cubeTextureBlue->Upload();
 	cubeTextureRed = new CIwTexture;
-	cubeTextureRed->LoadFromFile("cubeTextureRed.png");DisplayLoading();
+	cubeTextureRed->LoadFromFile("cubetexture-red.png");DisplayLoading();
 	cubeTextureRed->Upload();
 	cubeTextureGreen = new CIwTexture;
-	cubeTextureGreen->LoadFromFile("cubeTextureGreen.png");DisplayLoading();
+	cubeTextureGreen->LoadFromFile("cubetexture-green.png");DisplayLoading();
 	cubeTextureGreen->Upload();
 	cubeTextureYellow = new CIwTexture;
-	cubeTextureYellow->LoadFromFile("cubeTextureYellow.png");DisplayLoading();
+	cubeTextureYellow->LoadFromFile("cubetexture-yellow.png");DisplayLoading();
 	cubeTextureYellow->Upload();
 	cubeTextureOrange = new CIwTexture;
-	cubeTextureOrange->LoadFromFile("cubeTextureOrange.png");DisplayLoading();
+	cubeTextureOrange->LoadFromFile("cubetexture-orange.png");DisplayLoading();
 	cubeTextureOrange->Upload();
 	cubeTexturePurple = new CIwTexture;
-	cubeTexturePurple->LoadFromFile("cubeTexturePurple.png");DisplayLoading();
+	cubeTexturePurple->LoadFromFile("cubetexture-purple.png");DisplayLoading();
 	cubeTexturePurple->Upload();
 
 	DisplayLoading();
@@ -32711,11 +32765,14 @@ void LoadLevelData()
 	livesSprite.setImage( livesImage );
 	livesSprite.setDelayTime( 2 );
 
-	progressBarFuzzySprite.setUWidth( 64 );
-	progressBarFuzzySprite.setUHeight( 64 );
+	//progressBarFuzzySprite.setUWidth( 64 );
+	//progressBarFuzzySprite.setUHeight( 64 );
+	progressBarFuzzySprite.setUWidth( 128 );
+	progressBarFuzzySprite.setUHeight( 128 );
 	//progressBarFuzzySprite.setSize( 40, 40 );
 	progressBarFuzzySprite.setSize( width * .083, width * .083 );
-	spacebusImage = Iw2DCreateImage("spacebus.png");DisplayLoading();
+	//spacebusImage = Iw2DCreateImage("spacebus.png");DisplayLoading()
+	spacebusImage = Iw2DCreateImage("Spacebus(HD).png");DisplayLoading();
 	progressBarFuzzySprite.setImage( spacebusImage );
 	progressBarFuzzySprite.setDelayTime( 1 );
 	progressBarFuzzySprite.setTotalFrames( 13 );
@@ -32790,12 +32847,12 @@ void LoadLevelData()
 
 	// Test Button
 
-	testButtonImage = Iw2DCreateImage("rotate.png");DisplayLoading();
+	testButtonImage = Iw2DCreateImage("Rotate.png");DisplayLoading();
 	testButtonSprite.setImage( testButtonImage );
 	testButtonSprite.setUWidth( 64 );
 	testButtonSprite.setUHeight( 64 );
 	testButtonSprite.setSize( 64, 64 );
-	testButtonImage_pressed = Iw2DCreateImage("rotate_pressed.png");DisplayLoading();
+	testButtonImage_pressed = Iw2DCreateImage("RotatePressed.png");DisplayLoading();
 	testButtonSprite_pressed.setImage( testButtonImage_pressed );
 	testButtonSprite_pressed.setUWidth( 64 );
 	testButtonSprite_pressed.setUHeight( 64 );
@@ -32805,10 +32862,13 @@ void LoadLevelData()
 	testButton.setPressedSprite( testButtonSprite_pressed );	
 
 
-	scoreScreenImage = Iw2DCreateImage("scoreScreen.png");DisplayLoading();
+	//scoreScreenImage = Iw2DCreateImage("scoreScreen.png");DisplayLoading();
+	scoreScreenImage = Iw2DCreateImage("scorescreen(HD).png");DisplayLoading();
 	scoreScreenSprite.setImage( scoreScreenImage );
-	scoreScreenSprite.setUWidth( 480 );
-	scoreScreenSprite.setUHeight( 320 );
+	//scoreScreenSprite.setUWidth( 480 );
+	//scoreScreenSprite.setUHeight( 320 );
+	scoreScreenSprite.setUWidth( 1024 );
+	scoreScreenSprite.setUHeight( 768 );
 	//scoreScreenSprite.setSize( 480, 320 );
 	scoreScreenSprite.setSize( width, height );
 	scoreScreenSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
@@ -32821,15 +32881,21 @@ void LoadLevelData()
 	pausedBackgroundSprite.setSize( width, height );
 	pausedBackgroundSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 
-	pauseButtonImage = Iw2DCreateImage("pause.png");
-	pauseButtonSprite.setUWidth( 64 );
-	pauseButtonSprite.setUHeight( 64 );
+	//pauseButtonImage = Iw2DCreateImage("pause.png");
+	pauseButtonImage = Iw2DCreateImage("Pause(HD).png");
+	//pauseButtonSprite.setUWidth( 64 );
+	//pauseButtonSprite.setUHeight( 64 );
+	pauseButtonSprite.setUWidth( 256 );
+	pauseButtonSprite.setUHeight( 256 );
 	//pauseButtonSprite.setSize( 50, 50 );
 	pauseButtonSprite.setSize( width * .104, width * .104 );
 	pauseButtonSprite.setImage( pauseButtonImage );
-	pauseButtonImage_pressed = Iw2DCreateImage("pause_pressed.png");DisplayLoading();
-	pauseButtonSprite_pressed.setUWidth( 64 );
-	pauseButtonSprite_pressed.setUHeight( 64 );
+	//pauseButtonImage_pressed = Iw2DCreateImage("pause_pressed.png");DisplayLoading();
+	pauseButtonImage_pressed = Iw2DCreateImage("Pausepressed(HD).png");DisplayLoading();
+	//pauseButtonSprite_pressed.setUWidth( 64 );
+	//pauseButtonSprite_pressed.setUHeight( 64 );
+	pauseButtonSprite_pressed.setUWidth( 256 );
+	pauseButtonSprite_pressed.setUHeight( 256 );
 	//pauseButtonSprite_pressed.setSize( 50, 50 );
 	pauseButtonSprite_pressed.setSize( width * .104, width * .104 );
 	pauseButtonSprite_pressed.setImage( pauseButtonImage_pressed );
@@ -32838,15 +32904,21 @@ void LoadLevelData()
 	pauseButton.setUnpressedSprite( pauseButtonSprite );
 	pauseButton.setPressedSprite( pauseButtonSprite_pressed );	
 
-	resumeButtonImage = Iw2DCreateImage("resume.png");DisplayLoading();
-	resumeButtonSprite.setUWidth( 128 );
-	resumeButtonSprite.setUHeight( 128 );
+	//resumeButtonImage = Iw2DCreateImage("resume.png");DisplayLoading();
+	resumeButtonImage = Iw2DCreateImage("Resume(HD).png");DisplayLoading();
+	//resumeButtonSprite.setUWidth( 128 );
+	//resumeButtonSprite.setUHeight( 128 );
+	resumeButtonSprite.setUWidth( 256 );
+	resumeButtonSprite.setUHeight( 256 );
 	//resumeButtonSprite.setSize( 128, 128 );
 	resumeButtonSprite.setSize( width * .267, width * .267 );
 	resumeButtonSprite.setImage( resumeButtonImage );
-	resumeButtonImage_pressed = Iw2DCreateImage("resume_pressed.png");
-	resumeButtonSprite_pressed.setUWidth( 128 );
-	resumeButtonSprite_pressed.setUHeight( 128 );
+	//resumeButtonImage_pressed = Iw2DCreateImage("resume_pressed.png");
+	resumeButtonImage_pressed = Iw2DCreateImage("ResumePressed(HD).png");
+	//resumeButtonSprite_pressed.setUWidth( 128 );
+	//resumeButtonSprite_pressed.setUHeight( 128 );
+	resumeButtonSprite_pressed.setUWidth( 256 );
+	resumeButtonSprite_pressed.setUHeight( 256 );
 	//resumeButtonSprite_pressed.setSize( 128, 128 );
 	resumeButtonSprite_pressed.setSize( width * .267, width * .267 );
 	resumeButtonSprite_pressed.setImage( resumeButtonImage_pressed );
@@ -32855,15 +32927,21 @@ void LoadLevelData()
 	resumeButton.setUnpressedSprite( resumeButtonSprite );
 	resumeButton.setPressedSprite( resumeButtonSprite_pressed );	
 
-	quitButtonImage = Iw2DCreateImage("quit.png");DisplayLoading();
-	quitButtonSprite.setUWidth( 128 );
-	quitButtonSprite.setUHeight( 128 );
+	//quitButtonImage = Iw2DCreateImage("quit.png");DisplayLoading();
+	//quitButtonSprite.setUWidth( 128 );
+	//quitButtonSprite.setUHeight( 128 );
+	quitButtonImage = Iw2DCreateImage("Quit(HD).png");DisplayLoading();
+	quitButtonSprite.setUWidth( 256 );
+	quitButtonSprite.setUHeight( 256 );
 	//quitButtonSprite.setSize( 128, 128 );
 	quitButtonSprite.setSize( width * .267, width * .267 );
 	quitButtonSprite.setImage( quitButtonImage );
-	quitButtonImage_pressed = Iw2DCreateImage("quit_pressed.png");
-	quitButtonSprite_pressed.setUWidth( 128 );
-	quitButtonSprite_pressed.setUHeight( 128 );
+	//quitButtonImage_pressed = Iw2DCreateImage("quit_pressed.png");
+	//quitButtonSprite_pressed.setUWidth( 128 );
+	//quitButtonSprite_pressed.setUHeight( 128 );
+	quitButtonImage_pressed = Iw2DCreateImage("Quitpressed(HD).png");
+	quitButtonSprite_pressed.setUWidth( 256 );
+	quitButtonSprite_pressed.setUHeight( 256 );
 	//quitButtonSprite_pressed.setSize( 128, 128 );
 	quitButtonSprite_pressed.setSize( width * .267, width * .267 );
 	quitButtonSprite_pressed.setImage( quitButtonImage_pressed );
@@ -32872,16 +32950,22 @@ void LoadLevelData()
 	quitButton.setUnpressedSprite( quitButtonSprite );
 	quitButton.setPressedSprite( quitButtonSprite_pressed );	
 
-	restartButtonImage = Iw2DCreateImage("restart.png");DisplayLoading();
-	restartButtonSprite.setUWidth( 128 );
-	restartButtonSprite.setUHeight( 128 );
+	//restartButtonImage = Iw2DCreateImage("restart.png");DisplayLoading();
+	//restartButtonSprite.setUWidth( 128 );
+	//restartButtonSprite.setUHeight( 128 );
 	//restartButtonSprite.setSize( 128, 128 );
+	restartButtonImage = Iw2DCreateImage("Restart(HD).png");DisplayLoading();
+	restartButtonSprite.setUWidth( 256 );
+	restartButtonSprite.setUHeight( 256 );
 	restartButtonSprite.setSize( width * .267, width * .267 );
 	restartButtonSprite.setImage( restartButtonImage );
-	restartButtonImage_pressed = Iw2DCreateImage("restart_pressed.png");
-	restartButtonSprite_pressed.setUWidth( 128 );
-	restartButtonSprite_pressed.setUHeight( 128 );
+	//restartButtonImage_pressed = Iw2DCreateImage("restart_pressed.png");
+	//restartButtonSprite_pressed.setUWidth( 128 );
+	//restartButtonSprite_pressed.setUHeight( 128 );
 	//restartButtonSprite_pressed.setSize( 128, 128 );
+	restartButtonImage_pressed = Iw2DCreateImage("Restartpressed(HD).png");
+	restartButtonSprite_pressed.setUWidth( 256 );
+	restartButtonSprite_pressed.setUHeight( 256 );
 	restartButtonSprite_pressed.setSize( width * .267, width * .267 );
 	restartButtonSprite_pressed.setImage( restartButtonImage_pressed );
 	//restartButton.setTouchSize( 128, 128 );
@@ -32889,16 +32973,22 @@ void LoadLevelData()
 	restartButton.setUnpressedSprite( restartButtonSprite );
 	restartButton.setPressedSprite( restartButtonSprite_pressed );	
 
-	nextButtonImage = Iw2DCreateImage("next.png");DisplayLoading();
-	nextButtonSprite.setUWidth( 128 );
-	nextButtonSprite.setUHeight( 128 );
+	//nextButtonImage = Iw2DCreateImage("next.png");DisplayLoading();
+	//nextButtonSprite.setUWidth( 128 );
+	//nextButtonSprite.setUHeight( 128 );
 	//nextButtonSprite.setSize( 128, 128 );
+	nextButtonImage = Iw2DCreateImage("Next(HD).png");DisplayLoading();
+	nextButtonSprite.setUWidth( 256 );
+	nextButtonSprite.setUHeight( 256 );
 	nextButtonSprite.setSize( width * .267, width * .267 );
 	nextButtonSprite.setImage( nextButtonImage );
-	nextButtonImage_pressed = Iw2DCreateImage("next_pressed.png");
-	nextButtonSprite_pressed.setUWidth( 128 );
-	nextButtonSprite_pressed.setUHeight( 128 );
+	//nextButtonImage_pressed = Iw2DCreateImage("next_pressed.png");
+	//nextButtonSprite_pressed.setUWidth( 128 );
+	//nextButtonSprite_pressed.setUHeight( 128 );
 	//nextButtonSprite_pressed.setSize( 128, 128 );
+	nextButtonImage_pressed = Iw2DCreateImage("Nextpressed(HD).png");
+	nextButtonSprite_pressed.setUWidth( 256 );
+	nextButtonSprite_pressed.setUHeight( 256 );
 	nextButtonSprite_pressed.setSize( width * .267, width * .267 );
 	nextButtonSprite_pressed.setImage( nextButtonImage_pressed );
 	//nextButton.setTouchSize( 128, 128 );
@@ -32906,88 +32996,132 @@ void LoadLevelData()
 	nextButton.setUnpressedSprite( nextButtonSprite );
 	nextButton.setPressedSprite( nextButtonSprite_pressed );
 
-	rotateButtonImage = Iw2DCreateImage("rotate.png");DisplayLoading();
-	rotateButtonSprite.setUWidth( 64 );
-	rotateButtonSprite.setUHeight( 64 );
+	//rotateButtonImage = Iw2DCreateImage("rotate.png");DisplayLoading();
+	//rotateButtonSprite.setUWidth( 64 );
+	//rotateButtonSprite.setUHeight( 64 );
 	//rotateButtonSprite.setSize( 64, 64 );
-	rotateButtonSprite.setSize( width * .133, width * .133 );
+	rotateButtonImage = Iw2DCreateImage("Rotate.png");DisplayLoading();
+	rotateButtonSprite.setUWidth( 512 );
+	rotateButtonSprite.setUHeight( 512 );
+	//rotateButtonSprite.setSize( width * .133, width * .133 );
+	rotateButtonSprite.setSize( height * .2, height * .2 );
 	rotateButtonSprite.setImage( rotateButtonImage );
-	rotateButtonImage_pressed = Iw2DCreateImage("rotate_pressed.png");
-	rotateButtonSprite_pressed.setUWidth( 64 );
-	rotateButtonSprite_pressed.setUHeight( 64 );
+	//rotateButtonImage_pressed = Iw2DCreateImage("rotate_pressed.png");
+	//rotateButtonSprite_pressed.setUWidth( 64 );
+	//rotateButtonSprite_pressed.setUHeight( 64 );
+	rotateButtonImage_pressed = Iw2DCreateImage("RotatePressed.png");
+	rotateButtonSprite_pressed.setUWidth( 512 );
+	rotateButtonSprite_pressed.setUHeight( 512 );
 	//rotateButtonSprite_pressed.setSize( 64, 64 );
-	rotateButtonSprite_pressed.setSize( width * .133, width * .133 );
+	//rotateButtonSprite_pressed.setSize( width * .133, width * .133 );
+	rotateButtonSprite_pressed.setSize( height * .2, height * .2 );
 	rotateButtonSprite_pressed.setImage( rotateButtonImage_pressed );
 	//rotateButton.setTouchSize( 64, 64 );
-	rotateButton.setTouchSize( width * .133, width * .133 );
+	//rotateButton.setTouchSize( width * .133, width * .133 );
+	rotateButton.setTouchSize( height * .2, height * .2 );
 	rotateButton.setUnpressedSprite( rotateButtonSprite );
 	rotateButton.setPressedSprite( rotateButtonSprite_pressed );	
 
-	rightButtonImage = Iw2DCreateImage("FuzzyControlButton.png");DisplayLoading();
-	rightButtonSprite.setUWidth( 50 );
-	rightButtonSprite.setUHeight( 50 );
+	//rightButtonImage = Iw2DCreateImage("FuzzyControlButton.png");DisplayLoading();
+	//rightButtonSprite.setUWidth( 50 );
+	//rightButtonSprite.setUHeight( 50 );
+	rightButtonImage = Iw2DCreateImage("fuzzyControlbutton(HD).png");DisplayLoading();
+	rightButtonSprite.setUWidth( 128 );
+	rightButtonSprite.setUHeight( 128 );
 	//rightButtonSprite.setSize( 50, 50 );
-	rightButtonSprite.setSize( width * .104, width * .104 );
+	//rightButtonSprite.setSize( width * .104, width * .104 );
+	rightButtonSprite.setSize( height * .156, height * .156 );
 	rightButtonSprite.setImage( rightButtonImage );
-	rightButtonImage_pressed = Iw2DCreateImage("FuzzyControlButton2.png");
-	rightButtonSprite_pressed.setUWidth( 50 );
-	rightButtonSprite_pressed.setUHeight( 50 );
+	//rightButtonImage_pressed = Iw2DCreateImage("FuzzyControlButton2.png");
+	//rightButtonSprite_pressed.setUWidth( 50 );
+	//rightButtonSprite_pressed.setUHeight( 50 );
+	rightButtonImage_pressed = Iw2DCreateImage("fuzzyControlbutton-green(HD).png");
+	rightButtonSprite_pressed.setUWidth( 128 );
+	rightButtonSprite_pressed.setUHeight( 128 );
 	//rightButtonSprite_pressed.setSize( 50, 50 );
-	rightButtonSprite_pressed.setSize( width * .104, width * .104 );
+	//rightButtonSprite_pressed.setSize( width * .104, width * .104 );
+	rightButtonSprite_pressed.setSize( height * .12, height * .12 );
 	rightButtonSprite_pressed.setImage( rightButtonImage_pressed );
 	//rightButton.setTouchSize( 50, 50 );
-	rightButton.setTouchSize( width * .104, width * .104 );
+	//rightButton.setTouchSize( width * .104, width * .104 );
+	rightButton.setTouchSize( height * .156, height * .156 );
 	rightButton.setUnpressedSprite( rightButtonSprite );
 	rightButton.setPressedSprite( rightButtonSprite_pressed );	
 
-	leftButtonImage = Iw2DCreateImage("FuzzyControlButton.png");DisplayLoading();
-	leftButtonSprite.setUWidth( 50 );
-	leftButtonSprite.setUHeight( 50 );
+	//leftButtonImage = Iw2DCreateImage("FuzzyControlButton.png");DisplayLoading();
+	//leftButtonSprite.setUWidth( 50 );
+	//leftButtonSprite.setUHeight( 50 );
+	leftButtonImage = Iw2DCreateImage("fuzzyControlbutton(HD).png");DisplayLoading();
+	leftButtonSprite.setUWidth( 128 );
+	leftButtonSprite.setUHeight( 128 );
 	//leftButtonSprite.setSize( 50, 50 );
-	leftButtonSprite.setSize( width * .104, width * .104 );
+	//leftButtonSprite.setSize( width * .104, width * .104 );
+	leftButtonSprite.setSize( height * .156, height * .156 );
 	leftButtonSprite.setImage( leftButtonImage );
-	leftButtonImage_pressed = Iw2DCreateImage("FuzzyControlButton2.png");
-	leftButtonSprite_pressed.setUWidth( 50 );
-	leftButtonSprite_pressed.setUHeight( 50 );
+	//leftButtonImage_pressed = Iw2DCreateImage("FuzzyControlButton2.png");
+	//leftButtonSprite_pressed.setUWidth( 50 );
+	//leftButtonSprite_pressed.setUHeight( 50 );
+	leftButtonImage_pressed = Iw2DCreateImage("fuzzyControlbutton-green(HD).png");
+	leftButtonSprite_pressed.setUWidth( 128 );
+	leftButtonSprite_pressed.setUHeight( 128 );
 	//leftButtonSprite_pressed.setSize( 50, 50 );
-	leftButtonSprite_pressed.setSize( width * .104, width * .104 );
+	//leftButtonSprite_pressed.setSize( width * .104, width * .104 );
+	leftButtonSprite_pressed.setSize( height * .12, height * .12 );
 	leftButtonSprite_pressed.setImage( leftButtonImage_pressed );
 	//leftButton.setTouchSize( 50, 50 );
-	leftButton.setTouchSize( width * .104, width * .104 );
+	//leftButton.setTouchSize( width * .104, width * .104 );
+	leftButton.setTouchSize( height * .156, height * .156 );
 	leftButton.setUnpressedSprite( leftButtonSprite );
 	leftButton.setPressedSprite( leftButtonSprite_pressed );	
 
-	upButtonImage = Iw2DCreateImage("FuzzyControlButton.png");DisplayLoading();
-	upButtonSprite.setUWidth( 50 );
-	upButtonSprite.setUHeight( 50 );
+	//upButtonImage = Iw2DCreateImage("FuzzyControlButton.png");DisplayLoading();
+	//upButtonSprite.setUWidth( 50 );
+	//upButtonSprite.setUHeight( 50 );
+	upButtonImage = Iw2DCreateImage("fuzzyControlbutton(HD).png");DisplayLoading();
+	upButtonSprite.setUWidth( 128 );
+	upButtonSprite.setUHeight( 128 );
 	//upButtonSprite.setSize( 50, 50 );
-	upButtonSprite.setSize( width * .104, width * .104 );
+	//upButtonSprite.setSize( width * .104, width * .104 );
+	upButtonSprite.setSize( height * .156, height * .156 );
 	upButtonSprite.setImage( upButtonImage );
-	upButtonImage_pressed = Iw2DCreateImage("FuzzyControlButton2.png");
-	upButtonSprite_pressed.setUWidth( 50 );
-	upButtonSprite_pressed.setUHeight( 50 );
+	//upButtonImage_pressed = Iw2DCreateImage("FuzzyControlButton2.png");
+	//upButtonSprite_pressed.setUWidth( 50 );
+	//upButtonSprite_pressed.setUHeight( 50 );
+	upButtonImage_pressed = Iw2DCreateImage("fuzzyControlbutton-green(HD).png");
+	upButtonSprite_pressed.setUWidth( 128 );
+	upButtonSprite_pressed.setUHeight( 128 );
 	//upButtonSprite_pressed.setSize( 50, 50 );
-	upButtonSprite_pressed.setSize( width * .104, width * .104 );
+	upButtonSprite_pressed.setSize( height * .12, height * .12 );
 	upButtonSprite_pressed.setImage( upButtonImage_pressed );
 	//upButton.setTouchSize( 50, 50 );
-	upButton.setTouchSize( width * .104, width * .104 );
+	//upButton.setTouchSize( width * .104, width * .104 );
+	upButton.setTouchSize( height * .156, height * .156 );
 	upButton.setUnpressedSprite( upButtonSprite );
 	upButton.setPressedSprite( upButtonSprite_pressed );	
 
-	downButtonImage = Iw2DCreateImage("FuzzyControlButton.png");DisplayLoading();
-	downButtonSprite.setUWidth( 50 );
-	downButtonSprite.setUHeight( 50 );
+	//downButtonImage = Iw2DCreateImage("FuzzyControlButton.png");DisplayLoading();
+	//downButtonSprite.setUWidth( 50 );
+	//downButtonSprite.setUHeight( 50 );
+	downButtonImage = Iw2DCreateImage("fuzzyControlbutton(HD).png");DisplayLoading();
+	downButtonSprite.setUWidth( 128 );
+	downButtonSprite.setUHeight( 128 );
 	//downButtonSprite.setSize( 50, 50 );
-	downButtonSprite.setSize( width * .104, width * .104 );
+	//downButtonSprite.setSize( width * .104, width * .104 );
+	downButtonSprite.setSize( height * .156, height * .156 );
 	downButtonSprite.setImage( downButtonImage );
-	downButtonImage_pressed = Iw2DCreateImage("FuzzyControlButton2.png");
-	downButtonSprite_pressed.setUWidth( 50 );
-	downButtonSprite_pressed.setUHeight( 50 );
+	//downButtonImage_pressed = Iw2DCreateImage("FuzzyControlButton2.png");
+	//downButtonSprite_pressed.setUWidth( 50 );
+	//downButtonSprite_pressed.setUHeight( 50 );
+	downButtonImage_pressed = Iw2DCreateImage("fuzzyControlbutton-green(HD).png");
+	downButtonSprite_pressed.setUWidth( 128 );
+	downButtonSprite_pressed.setUHeight( 128 );
 	//downButtonSprite_pressed.setSize( 50, 50 );
-	downButtonSprite_pressed.setSize( width * .104, width * .104 );
+	//downButtonSprite_pressed.setSize( width * .104, width * .104 );
+	downButtonSprite_pressed.setSize( height * .12, height * .12 );
 	downButtonSprite_pressed.setImage( downButtonImage_pressed );
 	//downButton.setTouchSize( 50, 50 );
-	downButton.setTouchSize( width * .104, width * .104 );
+	//downButton.setTouchSize( width * .104, width * .104 );
+	downButton.setTouchSize( height * .156, height * .156 );
 	downButton.setUnpressedSprite( downButtonSprite );
 	downButton.setPressedSprite( downButtonSprite_pressed );	
 
@@ -33895,7 +34029,7 @@ int32 triggerShowTutorialDoNotStack( void *systemData, void *userData )
 {
 	tutorialSprites[11].setStartingAlpha( tutorialZeroAlpha );
 	tutorialSprites[11].setEndingAlpha( tutorialMaxAlpha );
-	tutorialSprites[11].setAlphaInterpolationTime( 500 );
+	tutorialSprites[11].setAlphaInterpolationTime( 300 );
 
 	return 0;
 }
@@ -33904,7 +34038,7 @@ int32 triggerHideTutorialDoNotStack( void *systemData, void *userData )
 {
 	tutorialSprites[11].setStartingAlpha( tutorialMaxAlpha );
 	tutorialSprites[11].setEndingAlpha( tutorialZeroAlpha );
-	tutorialSprites[11].setAlphaInterpolationTime( 500 );
+	tutorialSprites[11].setAlphaInterpolationTime( 300 );
 
 	return 0;
 }
@@ -35188,7 +35322,7 @@ void CheckAndWarpCubes()
 						}
 
 						//pointSprites[i][j].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 - 125);// set the location
-						pointSprites[i][j].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 - height*.391);// set the location
+						pointSprites[i][j].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 - height*.251);// set the location
 
 						break; // stop assigning and activating sprites once free one is found
 					}

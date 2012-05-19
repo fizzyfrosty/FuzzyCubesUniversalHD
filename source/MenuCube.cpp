@@ -98,43 +98,59 @@ void MenuCube::Initialize( int16 t, int16 n )
 	texture2 = new CIwTexture;
 	if( type == NEW )
 	{
-		texture->LoadFromFile( "cubeTextureBlue.png");
-		texture2->LoadFromFile( "cubeTextureBlue.png");
+		//texture->LoadFromFile( "cubeTextureBlue.png");
+		//texture2->LoadFromFile( "cubeTextureBlue.png");
+		texture->LoadFromFile( "cubetexture-blue.png");
+		texture2->LoadFromFile( "cubetexture-blue.png");
 	}
 	else if( type == TUTORIAL )
 	{
-		texture->LoadFromFile( "cubeTextureYellow.png");
-		texture2->LoadFromFile( "cubeTextureYellow.png");
+		//texture->LoadFromFile( "cubeTextureYellow.png");
+		//texture2->LoadFromFile( "cubeTextureYellow.png");
+		texture->LoadFromFile( "cubetexture-yellow.png");
+		texture2->LoadFromFile( "cubetexture-yellow.png");
 	}
 	else if( type == CREDITS )
 	{
-		texture->LoadFromFile( "cubeTextureRed.png");
-		texture2->LoadFromFile( "cubeTextureRed.png");
+		//texture->LoadFromFile( "cubeTextureRed.png");
+		//texture2->LoadFromFile( "cubeTextureRed.png");
+		texture->LoadFromFile( "cubetexture-red.png");
+		texture2->LoadFromFile( "cubetexture-red.png");
 	}
 	else if( type == HIGH_SCORE )
 	{
-		texture->LoadFromFile( "cubeTextureGreen.png");
-		texture2->LoadFromFile( "cubeTextureGreen.png");
+		//texture->LoadFromFile( "cubeTextureGreen.png");
+		//texture2->LoadFromFile( "cubeTextureGreen.png");
+		texture->LoadFromFile( "cubetexture-green.png");
+		texture2->LoadFromFile( "cubetexture-green.png");
 	}
 	else if( type == QUESTION_MARK )
 	{
-		texture->LoadFromFile( "cubeTextureOrange.png");
-		texture2->LoadFromFile( "cubeTextureOrange.png");
+		//texture->LoadFromFile( "cubeTextureOrange.png");
+		//texture2->LoadFromFile( "cubeTextureOrange.png");
+		texture->LoadFromFile( "cubetexture-orange.png");
+		texture2->LoadFromFile( "cubetexture-orange.png");
 	}
 	else if( type == RAP_RECORD )
 	{
-		texture->LoadFromFile( "cubeTextureOrange.png");
-		texture2->LoadFromFile( "cubeTextureOrange.png");
+		//texture->LoadFromFile( "cubeTextureOrange.png");
+		//texture2->LoadFromFile( "cubeTextureOrange.png");
+		texture->LoadFromFile( "cubetexture-orange.png");
+		texture2->LoadFromFile( "cubetexture-orange.png");
 	}
 	else if( type == CONTINUE )
 	{
-		texture->LoadFromFile( "cubeTexturePurple.png");
-		texture2->LoadFromFile( "cubeTexturePurple.png");
+		//texture->LoadFromFile( "cubeTexturePurple.png");
+		//texture2->LoadFromFile( "cubeTexturePurple.png");
+		texture->LoadFromFile( "cubetexture-purple.png");
+		texture2->LoadFromFile( "cubetexture-purple.png");
 	}
 	else if( type == CHALLENGE )
 	{
-		texture->LoadFromFile( "cubeTextureYellow.png");
-		texture2->LoadFromFile( "cubeTextureYellow.png");
+		//texture->LoadFromFile( "cubeTextureYellow.png");
+		//texture2->LoadFromFile( "cubeTextureYellow.png");
+		texture->LoadFromFile( "cubetexture-yellow.png");
+		texture2->LoadFromFile( "cubetexture-yellow.png");
 	}
 	
 	texture->Upload();

@@ -25,45 +25,45 @@ void PointSprite::Render()
 		{
 		case FIFTY:
 			image = pointsImage50;
-			uWidth = 64;
-			uHeight = 64;
-			size.x = 64;
-			size.y = 64;
+			//size.x = 64;
+			//size.y = 64;
+			size.x = IwGxGetScreenHeight() * .2;
+			size.y = IwGxGetScreenHeight() * .2;
 			break;
 		case ONE_HUNDRED:
 			image = pointsImage100;
-			uWidth = 64;
-			uHeight = 64;
-			size.x = 64;
-			size.y = 64;
+			//size.x = 64;
+			//size.y = 64;
+			size.x = IwGxGetScreenHeight() * .2;
+			size.y = IwGxGetScreenHeight() * .2;
 			break;
 		case FIVE_HUNDRED:
 			image = pointsImage500;
-			uWidth = 64;
-			uHeight = 64;
-			size.x = 128;
-			size.y = 128;
+			//size.x = 64;
+			//size.y = 64;
+			size.x = IwGxGetScreenHeight() * .4;
+			size.y = IwGxGetScreenHeight() * .4;
 			break;
 		case ONE_THOUSAND:
 			image = pointsImage1000;
-			uWidth = 64;
-			uHeight = 64;
-			size.x = 128;
-			size.y = 128;
+			//size.x = 128;
+			//size.y = 128;
+			size.x = IwGxGetScreenHeight() * .4;
+			size.y = IwGxGetScreenHeight() * .4;
 			break;
 		case FIVE_THOUSAND:
 			image = pointsImage5000;
-			uWidth = 64;
-			uHeight = 64;
-			size.x = 128;
-			size.y = 128;
+			//size.x = 128;
+			//size.y = 128;
+			size.x = IwGxGetScreenHeight() * .4;
+			size.y = IwGxGetScreenHeight() * .4;
 			break;
 		case TEN_THOUSAND:
 			image = pointsImage10000;
-			uWidth = 64;
-			uHeight = 64;
-			size.x = 128;
-			size.y = 128;
+			//size.x = 128;
+			//size.y = 128;
+			size.x = IwGxGetScreenHeight() * .4;
+			size.y = IwGxGetScreenHeight() * .4;
 			break;
 		}
 

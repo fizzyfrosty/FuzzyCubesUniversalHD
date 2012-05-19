@@ -24,7 +24,7 @@ DataCacheSize=1000000
 #UnIndexedStreamMax = 8192
 VertCacheSize = 16384
 UnIndexedStreamMax = 16384
-
+b
 #Transform=SW 
 #Lighting=SW/HW
 #Rasterisation=HW
@@ -44,6 +44,8 @@ MemSize=33600000#33600000#16800000#8400000
 MemSizeDebug=33600000#33600000#16800000#8400000
 SysTraceToFile=1
 #landscape
-#DispFixRot="Landscape"
+DispFixRot="Landscape"
 #SplashMinDuration=3000
 #Splashscreen=splash2.jpg
+
+#IOSDispScaleFactor=200
