@@ -26,6 +26,12 @@ Version Number: Major.minor.build
 1.1.0 - 2/19/12
 1.0.0 - 2/6/12
 
+General Changes:
+	- Added all HD graphics
+	- increased timer in ep3 levels by 20 seconds.
+	- Tutorials no longer play unless new game is pressed.
+	- GameOver now restarts player to level 1
+
 3/20/12
 General Changes:
 	- Continued Resolution correction
@@ -7044,6 +7050,13 @@ bool Update()
 				// white fadein from menu > loading screen
 				transitionObject.setTransition( TransitionObject::WHITE, TransitionObject::FADEOUT, 1000 );
 			}
+
+			// Exiting Score Screen, entering Loading Screen. This only happens when clicking Restart to go to another level. Otherwise it will always go to cinematics.
+			if( GameState == AT_SCORE_SCREEN && TargetState == AT_LOADING_LEVEL )
+			{
+				// white fadein from loading screen > play cinematic 
+				transitionObject.setTransition( TransitionObject::WHITE, TransitionObject::FADEOUT, 1000 );
+			}
 			
 			// Exiting loading screen, entering cinematic
 			if( GameState == AT_LOADING_LEVEL && TargetState == PLAY_CINEMATIC )
@@ -7295,6 +7308,17 @@ bool Update()
 							TerminateEpisode( i+1 );
 							sphereLoaded[i] = false;
 						}
+					}
+				}
+				else if( TargetState == AT_LOADING_LEVEL ) // If coming from restart, unload all data so fresh data can be reloaded for ep1 tutorial images
+				{
+					transitionObject.setTransition( TransitionObject::WHITE, TransitionObject::FADEIN, 1000 );
+
+					// Unload level data so that new data can be loaded if: targetEpisode is 1, but current episode is not 1
+					if( levelDataLoaded == true && episode != 1 && targetEpisode == 1 )
+					{
+						TerminateLevelData();
+						levelDataLoaded = false;
 					}
 				}
 				else if( TargetState == AT_TUTORIAL_MENU_SCREEN )
@@ -7745,10 +7769,6 @@ bool Update()
 						break;						
 					} // end of switch( episode )
 				} // end of if targetState == play_game
-				else if( TargetState == AT_LOADING_LEVEL )
-				{
-					transitionObject.setTransition( TransitionObject::WHITE, TransitionObject::FADEIN, 1000 );
-				}
 
 			}
 		}
@@ -8511,9 +8531,15 @@ bool Update()
 				quitButton.setRenderSize( width * .208, width * .208 );
 			}
 
-			if( gameOver == true )
+			if( gameOver == true && savedAtScoreScreen == false )
 			{
 				playingStory = false;
+
+				// Reset target episode to 1 and reset all scores
+				targetEpisode = 1;
+				Save();
+
+				savedAtScoreScreen = true;
 
 				// flurry log stop of episode-start-event
 				if( hasFlurry )
@@ -19569,17 +19595,39 @@ void ReleaseScoreScreenButtons()
 			// new restart method, should save state
 			// load levels
 			storyMode = true;
-			// transition to loading levels. load when transition is finished
-			TargetState = PLAY_CINEMATIC;			
-			transition = true;				
-			transitionIsSet = false;
-				
 			limbo = true;
-			gameOver = false;
 
-			targetEpisode = episode; // maintain initializing same episode
+			if( gameOver == true )
+			{
+				targetEpisode = 1;
+
+				// if current episode is 1, do not perform level loading. 
+				if( episode == 1 )
+				{
+					TargetState = PLAY_CINEMATIC;
+				}
+				// if current episode is NOT 1, must perform a level loading to load tutorial assets
+				else
+				{
+					TargetState = AT_LOADING_LEVEL;
+				}
+
+				// transition to loading levels			
+				transition = true;				
+				transitionIsSet = false;
+			}
+			else
+			{
+				targetEpisode = episode; // maintain initializing same episode
+
+				// transition to loading levels. load when transition is finished
+				TargetState = PLAY_CINEMATIC;
+				transition = true;
+				transitionIsSet = false;
+			}
+
+			gameOver = false;			
 			SaveTargetEpisode();
-
 			levelNumber = 1; // this is important for initialization. targetEpisode is already loaded
 
 			// old restart method
@@ -19769,7 +19817,7 @@ void ReleasePausedButtons()
 			// load levels
 			storyMode = true;
 			// transition to loading levels. load when transition is finished
-			TargetState = PLAY_CINEMATIC;
+			TargetState = PLAY_GAME;
 			transition = true;				
 			transitionIsSet = false;
 				
@@ -29984,7 +30032,7 @@ void InitializeDifficulty( int16 d )
 			fallMatrix.SetTrans( CIwSVec3(0, 0, s*12) );
 
 			ep3Frames = 0;
-			ep3Seconds = 150;
+			ep3Seconds = 170;
 			ep3TimerStart = false; // turn on when episode 7 loads, by next button
 
 		}
@@ -31464,9 +31512,9 @@ void LoadSaveFile()
 			playedWarningTutorialOnce = saveFile.booleans[ SaveFile::playedWarningTutorialOnce ];
 
 			// set tutorial watch
-			playedHowToTutorialOnce = false;
-			playedBombTutorialOnce = false;
-			playedWarningTutorialOnce = false;
+			//playedHowToTutorialOnce = false;
+			//playedBombTutorialOnce = false;
+			//playedWarningTutorialOnce = false;
 
 			startAtCheckpoint = saveFile.booleans[ SaveFile::startAtCheckpoint ]; // this is new in 1.1
 
@@ -34659,15 +34707,15 @@ void CheckAndWarpCubes()
 					// reset the ep3 seconds on level up
 					if( levelNumber == 7 )
 					{
-						ep3Seconds = 150;
+						ep3Seconds = 170; // old value was 150
 					}
 					else if( levelNumber == 8 )
 					{
-						ep3Seconds = 170;
+						ep3Seconds = 190; // old value was 170
 					}
 					else if( levelNumber == 9 )
 					{
-						ep3Seconds = 180;
+						ep3Seconds = 210; // old value was 190
 					}
 
 					/*
