@@ -31,6 +31,10 @@ General Changes:
 	- increased timer in ep3 levels by 20 seconds.
 	- Tutorials no longer play unless new game is pressed.
 	- GameOver now restarts player to level 1
+		- FIX: Restart at score screen now keeps them at same Episode, but resets score and points
+		- 
+	- Android version should now stay lit during loading times
+
 
 3/20/12
 General Changes:
@@ -1561,7 +1565,8 @@ void SetTargetCubeSpawning();
 
 // load functions
 void DisplayLoading();
-int32 DisplayLoading( void* systemData, void* userData ); // for timer callback
+void DisplayLoadingWithoutRefresh();
+int32 DisplayLoading( void* systemData, void* userData ); // for timer callback. Not used right now I think.
 CIwTexture* DisplayLoading( int16 a );
 
 void LoadSaveFile();
@@ -1766,7 +1771,7 @@ CIw2DImage *titleImage;
 Sprite titleSprite;
 
 // developer variables
-bool musicOn = true;
+bool musicOn = false;
 
 SaveFile saveFile;
 string savedData;
@@ -2462,6 +2467,9 @@ Sprite loadingScreen;
 CIw2DImage* loadingImage;
 Sprite loadingIconSprite;
 CIw2DImage* loadingIconImage;
+
+Sprite fuzzyFactsSprites[3];
+CIw2DImage *fuzzyFactsImages[3];
 
 Sprite loadingMenuTransition;
 CIw2DImage* loadingMenuImage;
@@ -10802,13 +10810,13 @@ void Render()
 	}
 	else if( GameState == AT_LOADING_MENU )
 	{
-		loadingScreen.Render();
-		loadingIconSprite.Render();
+		// here
+		DisplayLoadingWithoutRefresh();
 	}
 	else if( GameState == AT_LOADING_LEVEL )
 	{
-		loadingScreen.Render();
-		loadingIconSprite.Render();
+		// here
+		DisplayLoadingWithoutRefresh();
 	}
 	else if( GameState == CHOOSE_DIFFICULTY )
 	{
@@ -19597,24 +19605,21 @@ void ReleaseScoreScreenButtons()
 			storyMode = true;
 			limbo = true;
 
+			// here
 			if( gameOver == true )
 			{
-				targetEpisode = 1;
+				targetEpisode = episode;
 
-				// if current episode is 1, do not perform level loading. 
-				if( episode == 1 )
-				{
-					TargetState = PLAY_CINEMATIC;
-				}
-				// if current episode is NOT 1, must perform a level loading to load tutorial assets
-				else
-				{
-					TargetState = AT_LOADING_LEVEL;
-				}
 
 				// transition to loading levels			
+				TargetState = PLAY_GAME;
 				transition = true;				
 				transitionIsSet = false;
+
+				ResetScoreAndLives();
+				Save();
+
+				gameOver = false;	
 			}
 			else
 			{
@@ -19626,7 +19631,6 @@ void ReleaseScoreScreenButtons()
 				transitionIsSet = false;
 			}
 
-			gameOver = false;			
 			SaveTargetEpisode();
 			levelNumber = 1; // this is important for initialization. targetEpisode is already loaded
 
@@ -19656,6 +19660,17 @@ void ReleaseScoreScreenButtons()
 			{
 				char cstring[50] = "Pressed ScoreScreen - Restart";
 				s3eFlurryLogEvent( cstring, false );
+			}
+
+			// flurry log start
+			if( hasFlurry )
+			{
+				char cstring[50] = "Started episode: ";
+				strcat( cstring, intToChar(targetEpisode) );
+				s3eFlurryLogEvent( cstring, true );
+
+				// this necessary to stop the TimedLogEvent
+				strcpy( timedEvent, cstring );
 			}
 		}
 		else if( qfiMode == true )
@@ -19857,6 +19872,16 @@ void ReleasePausedButtons()
 				s3eFlurryLogEvent( cstring, false );
 			}
 
+			// flurry log start
+			if( hasFlurry )
+			{
+				char cstring[50] = "Started episode: ";
+				strcat( cstring, intToChar(targetEpisode) );
+				s3eFlurryLogEvent( cstring, true );
+
+				// this necessary to stop the TimedLogEvent
+				strcpy( timedEvent, cstring );
+			}
 		}
 		else if( qfiMode == true )
 		{
@@ -31379,8 +31404,21 @@ void DisplayLoading()
 	loadingScreen.Render();
 	loadingIconSprite.Render();
 	Iw2DSurfaceShow();
+
+	// Prevents screen from going dim
+	s3eDeviceBacklightOn();
 }
 
+void DisplayLoadingWithoutRefresh()
+{
+	loadingScreen.Render();
+	loadingIconSprite.Render();
+
+	// Prevents screen from going dim
+	s3eDeviceBacklightOn();
+}
+
+/*
 int32 DisplayLoading( void* systemData, void* userData )
 {
 	loadingScreen.Render();
@@ -31388,6 +31426,7 @@ int32 DisplayLoading( void* systemData, void* userData )
 	Iw2DSurfaceShow();
 	return 0;
 }
+*/
 
 CIwTexture* DisplayLoading( int16 a )
 {
@@ -31719,6 +31758,9 @@ void LoadBackgroundAndOtherInit()
 	titleSprite.setSize( width, height );
 	titleSprite.setImage( titleImage );
 	titleSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
+
+	// here
+	// load fuzzy facts 
 	
 	// load loading screen for new game
 	//loadingScreen.setUWidth( 480 );
