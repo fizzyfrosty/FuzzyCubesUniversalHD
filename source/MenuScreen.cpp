@@ -14,6 +14,7 @@ void MenuScreen::Initialize( int16 t )
 {
 	//image = Iw2DCreateImage("splash.png");
 	image = Iw2DCreateImage("splash(HD).png");
+	quitConfirmationImage2 = NULL;
 
 	//counter = 0;
 	buttonCount = 0;
@@ -70,7 +71,16 @@ void MenuScreen::Initialize( int16 t )
 	{
 		delete image;
 		//image = Iw2DCreateImage("highscore_screen.png");
-		image = Iw2DCreateImage("Hiscorescreen(HD).png");
+		// here 
+		if( s3eDeviceGetInt( S3E_DEVICE_OS ) == S3E_OS_ID_IPHONE )
+		{
+			image = Iw2DCreateImage("Hiscorescreen(HD).png");
+		}
+		else
+		{
+			image = Iw2DCreateImage("HighscoreHD(2).png");
+		}
+
 		// high score screen has back button, and Rate button
 		buttonCount = 12; // buttons 0-1 are rate, 2-6 are black trophies, 7-11 are trophies
 
@@ -389,6 +399,7 @@ void MenuScreen::Initialize( int16 t )
 		delete image;
 		//image = Iw2DCreateImage("quitconfirmation.png");
 		image = Iw2DCreateImage("quitconfirmation.png");
+		quitConfirmationImage2 = Iw2DCreateImage("quitconfirmation2.png");
 		//sprite.setUWidth( 480 );
 		//sprite.setUHeight( 320 );
 		//sprite.setSize( 480, 320 );
@@ -397,6 +408,8 @@ void MenuScreen::Initialize( int16 t )
 		sprite.setSize( IwGxGetScreenWidth(), IwGxGetScreenHeight() );
 		sprite.setImage( image );
 		sprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
+
+		
 
 		// high score screen has back button, and Rate button
 		buttonCount = 2;
@@ -598,6 +611,19 @@ void MenuScreen::Update( bool trophies[], long highScore, int timeSeconds, int t
 	this->timeHours = timeHours;
 }
 
+// overload method for the Quit confirmation screen specifically
+void MenuScreen::Update( bool gameOver )
+{
+	if( gameOver == true ) // if game over, render the second confirmation image for quit screen
+	{
+		sprite.setImage( quitConfirmationImage2 );
+	}
+	else // otherwise, just render the other one.
+	{
+		sprite.setImage( image );
+	}
+}
+
 void MenuScreen::Render()
 {
 	sprite.Render();
@@ -622,103 +648,211 @@ void MenuScreen::Render()
 	}
 	else if( type == HIGH_SCORE )
 	{
-
-		for( int i = 0; i < buttonCount; i++ )
+		// here
+		if( s3eDeviceGetInt( S3E_DEVICE_OS ) == S3E_OS_ID_IPHONE )
 		{
-			switch( i )
+			for( int i = 0; i < buttonCount; i++ )
 			{
-			case 0:
-				//button[i].setLocation( sprite.position.x - 75, sprite.position.y + 122 );
-				button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .156, sprite.position.y + IwGxGetScreenHeight() * .381 );
-				button[i].Render();
-				break;
-			case 1:
-				//button[i].setLocation( sprite.position.x + 97, sprite.position.y + 122 );
-				button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .202, sprite.position.y +  IwGxGetScreenHeight() * .381);
-				button[i].Render();
-				break;
-			case 2: // render black trophies
-				//button[i].setLocation( sprite.position.x - 190, sprite.position.y - 75 );
-				button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .396, sprite.position.y - IwGxGetScreenHeight() * .234);
-				if( trophies[0] == false )
+				switch( i )
 				{
+				case 0:
+					//button[i].setLocation( sprite.position.x - 75, sprite.position.y + 122 );
+					button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .156, sprite.position.y + IwGxGetScreenHeight() * .381 );
 					button[i].Render();
-				}
-				break;
-			case 3:
-				//button[i].setLocation( sprite.position.x + 183, sprite.position.y - 80 );
-				button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .381, sprite.position.y - IwGxGetScreenHeight() * .25 );
-				if( trophies[1] == false )
-				{
+					break;
+				case 1:
+					//button[i].setLocation( sprite.position.x + 97, sprite.position.y + 122 );
+					button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .202, sprite.position.y +  IwGxGetScreenHeight() * .381);
 					button[i].Render();
+					break;
+				case 2: // render black trophies
+					//button[i].setLocation( sprite.position.x - 190, sprite.position.y - 75 );
+					button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .396, sprite.position.y - IwGxGetScreenHeight() * .234);
+					if( trophies[0] == false )
+					{
+						button[i].Render();
+					}
+					break;
+				case 3:
+					//button[i].setLocation( sprite.position.x + 183, sprite.position.y - 80 );
+					button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .381, sprite.position.y - IwGxGetScreenHeight() * .25 );
+					if( trophies[1] == false )
+					{
+						button[i].Render();
+					}
+					break;
+				case 4:
+					//button[i].setLocation( sprite.position.x - 190, sprite.position.y + 50 );
+					button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .396, sprite.position.y + IwGxGetScreenHeight() * .156);
+					if( trophies[2] == false )
+					{
+						button[i].Render();
+					}
+					break;
+				case 5:
+					//button[i].setLocation( sprite.position.x + 12, sprite.position.y + 63 );
+					button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .025, sprite.position.y + IwGxGetScreenHeight() * .197);
+					if( trophies[3] == false )
+					{
+						button[i].Render();
+					}
+					break;
+				case 6:
+					//button[i].setLocation( sprite.position.x + 187, sprite.position.y + 45 );
+					button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .390, sprite.position.y + IwGxGetScreenHeight() * .141);
+					if( trophies[4] == false )
+					{
+						button[i].Render();
+					}
+					break;
+				case 7:
+					//button[i].setLocation( sprite.position.x - 190, sprite.position.y - 75 );
+					button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .396, sprite.position.y - IwGxGetScreenHeight() * .234);
+					if( trophies[0] == true )
+					{
+						button[i].Render();
+					}
+					break;
+				case 8:
+					//button[i].setLocation( sprite.position.x + 183, sprite.position.y - 80 );
+					button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .381, sprite.position.y - IwGxGetScreenHeight() * .25);
+					if( trophies[1] == true )
+					{
+						button[i].Render();
+					}
+					break;
+				case 9:
+					//button[i].setLocation( sprite.position.x - 190, sprite.position.y + 50 );
+					button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .396, sprite.position.y + IwGxGetScreenHeight() * .156);
+					if( trophies[2] == true )
+					{
+						button[i].Render();
+					}
+					break;
+				case 10:
+					//button[i].setLocation( sprite.position.x + 12, sprite.position.y + 63 );
+					button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .025, sprite.position.y + IwGxGetScreenHeight() * .197);
+					if( trophies[3] == true )
+					{
+						button[i].Render();
+					}
+					break;
+				case 11:
+					//button[i].setLocation( sprite.position.x + 187, sprite.position.y + 45 );
+					button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .390, sprite.position.y + IwGxGetScreenHeight() * .141);
+					if( trophies[4] == true )
+					{
+						button[i].Render();
+					}
+					break;
 				}
-				break;
-			case 4:
-				//button[i].setLocation( sprite.position.x - 190, sprite.position.y + 50 );
-				button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .396, sprite.position.y + IwGxGetScreenHeight() * .156);
-				if( trophies[2] == false )
-				{
-					button[i].Render();
-				}
-				break;
-			case 5:
-				//button[i].setLocation( sprite.position.x + 12, sprite.position.y + 63 );
-				button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .025, sprite.position.y + IwGxGetScreenHeight() * .197);
-				if( trophies[3] == false )
-				{
-					button[i].Render();
-				}
-				break;
-			case 6:
-				//button[i].setLocation( sprite.position.x + 187, sprite.position.y + 45 );
-				button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .390, sprite.position.y + IwGxGetScreenHeight() * .141);
-				if( trophies[4] == false )
-				{
-					button[i].Render();
-				}
-				break;
-			case 7:
-				//button[i].setLocation( sprite.position.x - 190, sprite.position.y - 75 );
-				button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .396, sprite.position.y - IwGxGetScreenHeight() * .234);
-				if( trophies[0] == true )
-				{
-					button[i].Render();
-				}
-				break;
-			case 8:
-				//button[i].setLocation( sprite.position.x + 183, sprite.position.y - 80 );
-				button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .381, sprite.position.y - IwGxGetScreenHeight() * .25);
-				if( trophies[1] == true )
-				{
-					button[i].Render();
-				}
-				break;
-			case 9:
-				//button[i].setLocation( sprite.position.x - 190, sprite.position.y + 50 );
-				button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .396, sprite.position.y + IwGxGetScreenHeight() * .156);
-				if( trophies[2] == true )
-				{
-					button[i].Render();
-				}
-				break;
-			case 10:
-				//button[i].setLocation( sprite.position.x + 12, sprite.position.y + 63 );
-				button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .025, sprite.position.y + IwGxGetScreenHeight() * .197);
-				if( trophies[3] == true )
-				{
-					button[i].Render();
-				}
-				break;
-			case 11:
-				//button[i].setLocation( sprite.position.x + 187, sprite.position.y + 45 );
-				button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .390, sprite.position.y + IwGxGetScreenHeight() * .141);
-				if( trophies[4] == true )
-				{
-					button[i].Render();
-				}
-				break;
 			}
-		}
+		} // end of if OS is iphone, and rendering trophies
+		else // if OS is NOT iphone, do not render rate trophy, or rate button. In fact, just move them off the screen.
+		{
+			for( int i = 0; i < buttonCount; i++ )
+			{
+				switch( i )
+				{
+				case 0: // RATE BUTTON OFFSET OFF SCREEN
+					//button[i].setLocation( sprite.position.x - 75, sprite.position.y + 122 );
+					//button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .156, sprite.position.y + IwGxGetScreenHeight() * .381 );
+					button[i].setLocation( -IwGxGetScreenWidth() * 2, IwGxGetScreenHeight() );
+					button[i].Render();
+					break;
+				case 1:
+					//button[i].setLocation( sprite.position.x + 97, sprite.position.y + 122 );
+					button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .031, sprite.position.y +  IwGxGetScreenHeight() * .381);
+					button[i].Render();
+					break;
+				case 2: // render black trophies
+					//button[i].setLocation( sprite.position.x - 190, sprite.position.y - 75 );
+					button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .396, sprite.position.y - IwGxGetScreenHeight() * .234);
+					if( trophies[0] == false )
+					{
+						button[i].Render();
+					}
+					break;
+				case 3:
+					//button[i].setLocation( sprite.position.x + 183, sprite.position.y - 80 );
+					button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .381, sprite.position.y - IwGxGetScreenHeight() * .25 );
+					if( trophies[1] == false )
+					{
+						button[i].Render();
+					}
+					break;
+				case 4:  // Fuzzy Reviewer Trophy OFFSET OFF SCREEN
+					//button[i].setLocation( sprite.position.x - 190, sprite.position.y + 50 );
+					//button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .396, sprite.position.y + IwGxGetScreenHeight() * .156);
+					button[i].setLocation( -IwGxGetScreenWidth() * 2, IwGxGetScreenHeight() );
+					if( trophies[2] == false )
+					{
+						button[i].Render();
+					}
+					break;
+				case 5:
+					// Fuzzy 1 mill points shifted to reviewer spot
+					//button[i].setLocation( sprite.position.x + 12, sprite.position.y + 63 );
+					//button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .025, sprite.position.y + IwGxGetScreenHeight() * .197);
+					button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .396, sprite.position.y + IwGxGetScreenHeight() * .156);
+					if( trophies[3] == false )
+					{
+						button[i].Render();
+					}
+					break;
+				case 6:
+					//button[i].setLocation( sprite.position.x + 187, sprite.position.y + 45 );
+					button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .390, sprite.position.y + IwGxGetScreenHeight() * .141);
+					if( trophies[4] == false )
+					{
+						button[i].Render();
+					}
+					break;
+				case 7:
+					//button[i].setLocation( sprite.position.x - 190, sprite.position.y - 75 );
+					button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .396, sprite.position.y - IwGxGetScreenHeight() * .234);
+					if( trophies[0] == true )
+					{
+						button[i].Render();
+					}
+					break;
+				case 8:
+					//button[i].setLocation( sprite.position.x + 183, sprite.position.y - 80 );
+					button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .381, sprite.position.y - IwGxGetScreenHeight() * .25);
+					if( trophies[1] == true )
+					{
+						button[i].Render();
+					}
+					break;
+				case 9: // Fuzzy Reviewer Trophy OFFSET OFF SCREEN
+					//button[i].setLocation( sprite.position.x - 190, sprite.position.y + 50 );
+					//button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .396, sprite.position.y + IwGxGetScreenHeight() * .156);
+					button[i].setLocation( -IwGxGetScreenWidth() * 2, IwGxGetScreenHeight() );
+					if( trophies[2] == true )
+					{
+						button[i].Render();
+					}
+					break;
+				case 10: // Fuzzy 1 mill points shifted to reviewer spot
+					//button[i].setLocation( sprite.position.x + 12, sprite.position.y + 63 );
+					//button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .025, sprite.position.y + IwGxGetScreenHeight() * .197);
+					button[i].setLocation( sprite.position.x - IwGxGetScreenWidth() * .396, sprite.position.y + IwGxGetScreenHeight() * .156);
+					if( trophies[3] == true )
+					{
+						button[i].Render();
+					}
+					break;
+				case 11:
+					//button[i].setLocation( sprite.position.x + 187, sprite.position.y + 45 );
+					button[i].setLocation( sprite.position.x + IwGxGetScreenWidth() * .390, sprite.position.y + IwGxGetScreenHeight() * .141);
+					if( trophies[4] == true )
+					{
+						button[i].Render();
+					}
+					break;
+				}
+			}
+		} // end of rendering non-iOS versions for trophies and buttons
 
 		// need to render the current images because fonts are automatically displayed underneath them.
 		IwGxFlush();
@@ -842,7 +976,7 @@ void MenuScreen::Render()
 		}
 	}
 	else if( type == QUIT_CONFIRMATION )
-	{
+	{		
 		for( int i = 0; i < buttonCount; i++ )
 		{
 			switch( i )

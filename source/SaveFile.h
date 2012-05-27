@@ -50,6 +50,7 @@ public:
 		newValue2,
 		newValue3,
 		newValue4,
+		fuzzyFactCounter,
 	};
 	// longs
 	enum{ score,

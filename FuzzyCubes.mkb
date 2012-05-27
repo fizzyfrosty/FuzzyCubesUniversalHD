@@ -92,8 +92,8 @@ deployments
 {
 	#name='fuzzycubes'
 	#caption='Fuzzy Cubes' #maximum of 11 characters to be fully displayed in device	
-	caption='Fuzzy Universal HD'
-	name='fuzzycubesuniversalhd'
+	caption='Fuzzy HD'
+	name='fuzzycubeshd'
 	embed-icf='1'
 	provider='Workhorse Bytes'
 
@@ -108,11 +108,12 @@ deployments
 	itunes-artwork=data/icon512x512.png
 	iphone-prerendered-icon='1'
 	iphone-disable-ipad='0'
+	iphone-ipad-only='1'
 	
 	iphone-icon-ipad=data/icon72x72.png
 	iphone-icon-ipad-search=data/icon50x50.png
 	#iphone-appid='com.workhorsebytes.fuzzycubes'
-	iphone-appid='com.workhorsebytes.fuzzycubesuniversal'
+	iphone-appid='com.workhorsebytes.fuzzycubesuniversalhd'
 
 
 

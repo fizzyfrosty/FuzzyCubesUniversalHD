@@ -24,6 +24,7 @@ public:
 	void Initialize( int16 t );
 	void Terminate();
 	void Update( bool trophies[], long highScore, int timeSeconds, int timeMinutes, int timeHours ); // for high score only
+	void Update( bool gameOver );
 	void Render();
 
 	void setStartingPosition( int16 x, int16 y );
@@ -68,6 +69,7 @@ public:
 	// Background variables
 	Sprite sprite;
 	CIw2DImage* image;
+	CIw2DImage *quitConfirmationImage2;
 	int16 type;
 	enum{ CHALLENGE, QFCHAMBER, STORY, HIGH_SCORE, CREDITS, TUTORIAL, QUIT_CONFIRMATION, QUESTION_MARK, NEW_STORY_CONFIRMATION };
 

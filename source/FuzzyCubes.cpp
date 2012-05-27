@@ -1,31 +1,25 @@
 #include "FuzzyCubes.h"
 
-/*
-
-- Lite version (2 hours)
-	- iAd
-		- place in Menu and In-Game
-		- Not in Tutorial
-	- Link to game
-	
-- Final Beta testing (a few days)
-	- testing on iPod 1, iPod 2, iPod 4
-	- testing on iPhone 3G
-	- testing on iPad
-
-- FINAL Quality Control and Review (a few days) 
-- App Submission
-- Promotion
-	- Facebook
-	- Webpage
-	- Video
-	- Reddit
-- Submit to app review sites
+/* FUZZY CUBES UNIVERSAL HD
 
 Version Number: Major.minor.build
 1.1.0 - 2/19/12
 1.0.0 - 2/6/12
 
+5/27/12
+General Changes:
+	- Added title screen and loading screen for playbook resolutions
+
+5/26/12
+General Changes:
+	- Added the fuzzy facts images
+	- Adjusted the size of the loading spinning icon to not cover up fuzzy fact page 3
+	- Adjusted Timer position in episode 3
+	- Removed the trophies for non iOS versions
+	- Added another quit confirmation screen for game-over status
+	- Added flurry for all beta devices
+
+5/22/12
 General Changes:
 	- Added all HD graphics
 	- increased timer in ep3 levels by 20 seconds.
@@ -1502,6 +1496,9 @@ void InitializeDifficulty( int16 d );
 void TerminateEpisode( int16 e );
 void ResetLevel( int16 levelNumber ); // this is obsolete I think
 
+// Android backlight functions
+int32 SetBacklight( void *systemData, void *userData );
+
 // GameOver functions
 void setWhiteFadeIn( uint64 t );
 void setWhiteFadeOut( uint64 t );
@@ -1771,7 +1768,8 @@ CIw2DImage *titleImage;
 Sprite titleSprite;
 
 // developer variables
-bool musicOn = false;
+// testing
+bool musicOn = true;
 
 SaveFile saveFile;
 string savedData;
@@ -1779,6 +1777,7 @@ string currentData;
 int versionNumber;
 
 bool loweredVolume = false;
+bool setBacklight = false;
 
 // Story Mode variables
 bool storyMode = false;
@@ -2468,8 +2467,10 @@ CIw2DImage* loadingImage;
 Sprite loadingIconSprite;
 CIw2DImage* loadingIconImage;
 
-Sprite fuzzyFactsSprites[3];
-CIw2DImage *fuzzyFactsImages[3];
+// Fuzzy Facts
+Sprite fuzzyFactSprite;
+CIw2DImage *fuzzyFactImage = NULL;
+int16 fuzzyFactCounter = 0;
 
 Sprite loadingMenuTransition;
 CIw2DImage* loadingMenuImage;
@@ -6531,7 +6532,7 @@ void Init()
         printf("Flurry not available. Failed to initialize Flurry.");
         hasFlurry = false;
 	}
-	// testing, disable flurry for testing soas to not skew data	
+	// testing, disable flurry for testing soas to not skew data
 	else
 	{
 		hasFlurry = true;
@@ -6549,20 +6550,27 @@ void Init()
 	//Enable AppCircle
 	//s3eFlurryAppCircleEnable();
 
+	// initialize flurry
+	// testing
 	//iOS Applicaton Key
 	if( hasFlurry )
 	{
 		if(s3eDeviceGetInt (S3E_DEVICE_OS) == S3E_OS_ID_IPHONE)
 		{
 			//s3eFlurryStart("SBI85EBKAWR1ETK5CCW9");
-			s3eFlurryStart("1DNJ3QW7TP76YSIHYJNL"); // this is the test flurry account for ios			
+			s3eFlurryStart(""); // Fuzzy Cubes HD Beta iPhone	
 			printf("Started Flurry...\n");
 		}
-		//Android Applicaton Key
+		// Android Applicaton Key
 		else if(s3eDeviceGetInt (S3E_DEVICE_OS) == S3E_OS_ID_ANDROID)
 		{
 			//s3eFlurryStart("HD4EZJ147ELQAT9H43KM"); 
-			s3eFlurryStart("2YETE6ZDP2M9MQECE7UA");// this is test flurry account for android
+			s3eFlurryStart("YEPHCQJ1AYIY4DQ6IC3F");// Fuzzy Cubes HD Beta Android
+		}
+		// Playbook
+		else if( s3eDeviceGetInt (S3E_DEVICE_OS) == S3E_OS_ID_QNX )
+		{
+			s3eFlurryStart("M5A3Z9RZLY1YITWF9UC2");// Fuzzy Cubes HD Beta Playbook
 		}
 	}
 
@@ -7367,6 +7375,12 @@ bool Update()
 				}
 				else if( TargetState == PLAY_CINEMATIC ) 
 				{
+					if( fuzzyFactImage != NULL )
+					{
+						delete fuzzyFactImage; // if there was already a fuzzyFact loaded, delete it and load another on menuLoad
+						fuzzyFactImage = NULL;
+					}
+
 					if( s3eVideoIsPlaying() == false )
 					{		
 						allowCinemaSkip = false;
@@ -7831,6 +7845,33 @@ bool Update()
 
 		// get font (first one is the .gxfont, second one is resource name
 		ocr20 = (CIwGxFont*)IwGetResManager()->GetResNamed("ocr20", "CIwGxFont");		
+		if( height >= 1280 )
+		{
+			IwGetResManager()->LoadGroup("ocr36.group"); // the font is hobo-16, bold
+			ocr20 = (CIwGxFont*)IwGetResManager()->GetResNamed("ocr36", "CIwGxFont");
+		}
+		else if( height >= 960 )
+		{
+			IwGetResManager()->LoadGroup("ocr36.group"); // the font is hobo-16, bold
+			ocr20 = (CIwGxFont*)IwGetResManager()->GetResNamed("ocr36", "CIwGxFont");
+		}
+		else if( height >= 640 )
+		{
+			IwGetResManager()->LoadGroup("ocr36.group"); // the font is hobo-16, bold
+			ocr20 = (CIwGxFont*)IwGetResManager()->GetResNamed("ocr36", "CIwGxFont");
+		}
+		else if( height >= 480 )
+		{
+			IwGetResManager()->LoadGroup("ocr28.group"); // the font is hobo-16, bold
+			ocr20 = (CIwGxFont*)IwGetResManager()->GetResNamed("ocr28", "CIwGxFont");
+		}
+		else //if( height >= 320 )
+		{
+			IwGetResManager()->LoadGroup("ocr20.group"); // the font is hobo-16, bold
+			// font.tga is hobo16
+			ocr20 = (CIwGxFont*)IwGetResManager()->GetResNamed("ocr20", "CIwGxFont");
+		}
+
 
 		/*
 		IwGetResManager()->LoadGroup("hobo16.group");
@@ -7911,8 +7952,15 @@ bool Update()
 				// display loading screen
 				DisplayLoading();
 
+				// Set the timer to start turning on backlight
+				//setBacklight = true;
+				//s3eTimerSetTimer( 100, SetBacklight, 0 );
+
 				LoadLevelData(); // this has to happen before levels get initialized
 				levelDataLoaded = true;
+
+				// turn off backlight
+				//setBacklight = false;
 			}
 
 			// (level, phase)
@@ -7996,7 +8044,6 @@ bool Update()
 			TargetState = AT_MENU;
 		}
 		*/
-
 
 		if( triggeredLoadingMenuCallback == false )
 		{
@@ -8539,12 +8586,16 @@ bool Update()
 				quitButton.setRenderSize( width * .208, width * .208 );
 			}
 
+			// update quit confirmation screen
+			quitConfirmationScreen.Update( gameOver );
+
 			if( gameOver == true && savedAtScoreScreen == false )
 			{
 				playingStory = false;
 
 				// Reset target episode to 1 and reset all scores
 				targetEpisode = 1;
+				levelNumber = 1;
 				Save();
 
 				savedAtScoreScreen = true;
@@ -10810,12 +10861,10 @@ void Render()
 	}
 	else if( GameState == AT_LOADING_MENU )
 	{
-		// here
 		DisplayLoadingWithoutRefresh();
 	}
 	else if( GameState == AT_LOADING_LEVEL )
 	{
-		// here
 		DisplayLoadingWithoutRefresh();
 	}
 	else if( GameState == CHOOSE_DIFFICULTY )
@@ -11335,7 +11384,7 @@ void Render()
 				IwGxFontDrawText( levelData );
 
 
-				// render ep3 timer
+				// render ep3 timer				
 				if( episode == 3 && levelNumber >= 7 && levelNumber <= 9 && ep3TimerStart == true )
 				{
 
@@ -11369,14 +11418,14 @@ void Render()
 					//Draw the shadow
 					IwGxFontSetCol(0xff000000); // orange, when setting it's abgr
 					//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 25, 0 + 30, 100, 100 ) );
-					IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - width*.052, 0 + height*.094, width, height ) );
+					IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - width*.032, 0 + height*.154, width, height ) );
 					IwGxFontPrepareText( ep3TimerData, ep3TimerStr);
 					IwGxFontDrawText( ep3TimerData );
 
 					// draw the text
 					IwGxFontSetCol(0xffccccff); // setting it's abgr
 					//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 25 -1, 0 + 30-2, 100, 100 ) );
-					IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - width*.052 - width*.002, 0 + height*.094-height*.006, width, height ) );
+					IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - width*.032 - width*.002, 0 + height*.154-height*.006, width, height ) );
 					IwGxFontDrawText( ep3TimerData );
 
 					IwGxFontSetFont( hobo16 );
@@ -12439,62 +12488,6 @@ void Render()
 			}
 		}
 
-		// Render score screen
-		// Render At Score Screen elements
-		if( GameState == AT_SCORE_SCREEN )
-		{
-			// show score
-			scoreScreenSprite.Render();
-			IwGxFlush();
-
-			restartButton.Render();
-			if( storyMode == true && advanceToNextLevel == true )
-			{
-				nextButton.Render();
-			}
-			quitButton.Render();
-
-			if( showScore == true )
-			{
-				showAndPlayScore();
-			}
-
-			if( showFuzziness == true )
-			{
-				showAndPlayFuzziness();
-			}
-
-			if( showSkillTitle == true )
-			{
-				showAndPlaySkillTitle();
-			}
-
-			for( int j = 0; j < 3; j++ )
-			{
-				if( showPixieDust[j] == true )
-				{
-					pixieSprite[j].Render();
-
-					if( pixieSprite[j].loopCount == 1 )
-					{
-						showPixieDust[j] = false;
-						pixieSprite[j].resetAndPlayAnimation();
-					}
-				}
-			}
-
-			if( showGameOver == true )
-			{
-				gameOverSprite.Render();
-			}
-
-			// Render Quit Confirmation Screen if enabled
-			if( enableQuitConfirmationScreen == true )
-			{
-				quitConfirmationScreen.Render();
-			}
-		}
-
 		// render lives text
 		IwGxFlush();
 		IwGxFontSetCol(0xffccffff);
@@ -12567,6 +12560,62 @@ void Render()
 		IwGxFontSetRect( CIwRect( width*.021 - width*.002, 0 - height*.006, (int16)IwGxGetScreenWidth(), (int16)IwGxGetScreenHeight()) );
 		IwGxFontPrepareText( data, str);
 		IwGxFontDrawText( data );
+
+		// Render score screen
+		// Render At Score Screen elements
+		if( GameState == AT_SCORE_SCREEN )
+		{
+			// show score
+			scoreScreenSprite.Render();
+			IwGxFlush();
+
+			restartButton.Render();
+			if( storyMode == true && advanceToNextLevel == true )
+			{
+				nextButton.Render();
+			}
+			quitButton.Render();
+
+			if( showScore == true )
+			{
+				showAndPlayScore();
+			}
+
+			if( showFuzziness == true )
+			{
+				showAndPlayFuzziness();
+			}
+
+			if( showSkillTitle == true )
+			{
+				showAndPlaySkillTitle();
+			}
+
+			for( int j = 0; j < 3; j++ )
+			{
+				if( showPixieDust[j] == true )
+				{
+					pixieSprite[j].Render();
+
+					if( pixieSprite[j].loopCount == 1 )
+					{
+						showPixieDust[j] = false;
+						pixieSprite[j].resetAndPlayAnimation();
+					}
+				}
+			}
+
+			if( showGameOver == true )
+			{
+				gameOverSprite.Render();
+			}
+
+			// Render Quit Confirmation Screen if enabled
+			if( enableQuitConfirmationScreen == true )
+			{
+				quitConfirmationScreen.Render();
+			}
+		}
 
 		// Render Paused Screen elements
 		if( GameState == PAUSED )
@@ -13115,6 +13164,12 @@ void ShutDown()
 	if( menuDataTerminated == false )
 	{
 		TerminateMenuData();
+	}
+
+	if( fuzzyFactImage != NULL )
+	{
+		delete fuzzyFactImage;
+		fuzzyFactImage = NULL;
 	}
 				
 	delete sideBlueMaterial;
@@ -19605,11 +19660,9 @@ void ReleaseScoreScreenButtons()
 			storyMode = true;
 			limbo = true;
 
-			// here
 			if( gameOver == true )
 			{
 				targetEpisode = episode;
-
 
 				// transition to loading levels			
 				TargetState = PLAY_GAME;
@@ -30637,6 +30690,16 @@ void TerminateEpisode( int16 e )
 	}
 }
 
+int32 SetBacklight( void *systemData, void *userData )
+{
+	printf("Setting backlight. \n");
+	if( setBacklight == true ) // keep setting the backlight for as long as the variable is true
+	{
+		//s3eTimerSetTimer( 5, SetBacklight, 0 );
+	}
+	return 0;
+}
+
 void setYellowFadeIn( uint64 t )
 {
 	yellowOverlaySprite.setStartingAlpha( 255 );
@@ -31401,7 +31464,15 @@ void SetTargetCubeSpawning()
 
 void DisplayLoading()
 {
-	loadingScreen.Render();
+	if( GameState == AT_LOADING_LEVEL )
+	{
+		fuzzyFactSprite.Render();
+	}
+	else
+	{
+		loadingScreen.Render();
+	}
+	
 	loadingIconSprite.Render();
 	Iw2DSurfaceShow();
 
@@ -31411,7 +31482,15 @@ void DisplayLoading()
 
 void DisplayLoadingWithoutRefresh()
 {
-	loadingScreen.Render();
+	if( GameState == AT_LOADING_LEVEL )
+	{
+		fuzzyFactSprite.Render();
+	}
+	else
+	{
+		loadingScreen.Render();
+	}
+
 	loadingIconSprite.Render();
 
 	// Prevents screen from going dim
@@ -31458,7 +31537,7 @@ void LoadSaveFile()
 	// set the default values if did not load successfully. Should be only on first load ever.
 	if( result != S3E_RESULT_SUCCESS  )
 	{
-		versionNumber = 1;
+		versionNumber = 3;
 		printf("Loading save file...no file found. Initializing with default values\n\n");
 		playingStory = false;
 		score = 0;
@@ -31469,6 +31548,8 @@ void LoadSaveFile()
 		timeSeconds = 0;
 		timeMinutes = 0;
 		timeHours = 0;
+		fuzzyFactCounter = 0;
+
 		for( int i = 0; i < NUM_OF_TROPHIES; i++ )
 		{
 			trophies[i] = false;
@@ -31560,14 +31641,45 @@ void LoadSaveFile()
 		} // end of version 2
 		else if( versionNumber == 3 )
 		{
-		}
+			printf("Loading version 3 ...\n" );
+			// load the integers
+			numOfLives = saveFile.integers[ SaveFile::numOfLives ];
+			targetEpisode = saveFile.integers[ SaveFile::targetEpisode ];
+			timeSeconds = saveFile.integers[ SaveFile::timeSeconds ];
+			timeMinutes = saveFile.integers[ SaveFile::timeMinutes ];
+			timeHours = saveFile.integers[ SaveFile::timeHours ];
+			fuzzyFactCounter = saveFile.integers[ SaveFile::fuzzyFactCounter ];
+
+			// load the longs
+			score = saveFile.longs[ SaveFile::score ];
+			highScore = saveFile.longs[ SaveFile::highScore ];
+			scoreLivesBonusBucket = saveFile.longs[ SaveFile::scoreLivesBonusBucket ];
+
+			// load the booleans
+			playingStory = false; // do not load this
+			for( int i = 0; i < NUM_OF_TROPHIES; i++ )
+			{
+				trophies[i] = saveFile.booleans[i];
+			}
+
+			playedHowToTutorialOnce = saveFile.booleans[ SaveFile::playedHowToTutorialOnce ];
+			playedBombTutorialOnce = saveFile.booleans[ SaveFile::playedBombTutorialOnce ];
+			playedWarningTutorialOnce = saveFile.booleans[ SaveFile::playedWarningTutorialOnce ];
+
+			// set tutorial watch
+			//playedHowToTutorialOnce = false;
+			//playedBombTutorialOnce = false;
+			//playedWarningTutorialOnce = false;
+
+			startAtCheckpoint = saveFile.booleans[ SaveFile::startAtCheckpoint ]; // this is new in 1.1
+		} // end of version 3
 	} // end of if-successful loading of file
 }
 
 void Save()
 {
 	// Save version number
-	versionNumber = 2;
+	versionNumber = 3;
 	/* versionNumber = 1; 1.0; 1.0.0;
 
 	*/
@@ -31624,8 +31736,32 @@ void Save()
 		saveFile.booleans[ SaveFile::playedWarningTutorialOnce ] = playedWarningTutorialOnce;
 		saveFile.booleans[ SaveFile::startAtCheckpoint ] = startAtCheckpoint; // this is new in 1.1
 	}
-	else if( versionNumber == 3 )
+	else if( versionNumber == 3 ) // 1.2
 	{
+		// Save the integers
+		saveFile.integers[ SaveFile::numOfLives ] = numOfLives;
+		saveFile.integers[ SaveFile::targetEpisode ] = targetEpisode;
+		saveFile.integers[ SaveFile::timeSeconds ] = timeSeconds;
+		saveFile.integers[ SaveFile::timeMinutes ] = timeMinutes;
+		saveFile.integers[ SaveFile::timeHours ] = timeHours;
+		saveFile.integers[ SaveFile::fuzzyFactCounter ] = fuzzyFactCounter; // this is new in 1.2
+
+		// save the longs
+		saveFile.longs[ SaveFile::score ] = score;
+		saveFile.longs[ SaveFile::highScore ] = highScore;
+		saveFile.longs[ SaveFile::scoreLivesBonusBucket ] = scoreLivesBonusBucket;
+	
+		// save the booleans
+		saveFile.booleans[ SaveFile::playingStory ] = playingStory;
+		for( int i = 0; i < NUM_OF_TROPHIES; i++ )
+		{
+			saveFile.booleans[i] = trophies[i];
+		}
+
+		saveFile.booleans[ SaveFile::playedHowToTutorialOnce ] = playedHowToTutorialOnce;
+		saveFile.booleans[ SaveFile::playedBombTutorialOnce ] = playedBombTutorialOnce;
+		saveFile.booleans[ SaveFile::playedWarningTutorialOnce ] = playedWarningTutorialOnce;
+		saveFile.booleans[ SaveFile::startAtCheckpoint ] = startAtCheckpoint; // this is new in 1.1
 	}
 
 	printf("Executed save file. Target episode is %d \n", saveFile.integers[ SaveFile::targetEpisode ] );
@@ -31683,6 +31819,22 @@ void SaveHighStats()
 	}
 	else if( versionNumber == 3 )
 	{
+		// save the integers
+		saveFile.integers[ SaveFile::timeSeconds ] = timeSeconds;
+		saveFile.integers[ SaveFile::timeMinutes ] = timeMinutes;
+		saveFile.integers[ SaveFile::timeHours ] = timeHours;
+		saveFile.integers[ SaveFile::fuzzyFactCounter ] = fuzzyFactCounter; // this is new in 1.2
+
+		// save the longs
+		//saveFile.longs[ SaveFile::score ] = score;
+		saveFile.longs[ SaveFile::highScore ] = highScore;
+		//saveFile.longs[ SaveFile::scoreLivesBonusBucket ] = scoreLivesBonusBucket;
+	
+		// save the booleans		
+		for( int i = 0; i < NUM_OF_TROPHIES; i++ )
+		{
+			saveFile.booleans[i] = trophies[i];
+		}
 	}
 
 	if( s3eSecureStoragePut( &saveFile, sizeof(saveFile) ) == S3E_RESULT_SUCCESS )
@@ -31752,27 +31904,45 @@ void LoadBackgroundAndOtherInit()
 	//titleSprite.setUWidth( 480 );
 	//titleSprite.setUHeight( 320 );
 	//titleSprite.setSize( 480, 320 );
-	titleImage = Iw2DCreateImage("Title(HD).png");
-	titleSprite.setUWidth( 1024 );
-	titleSprite.setUHeight( 768 );
+	// Android
+	if( s3eDeviceGetInt( S3E_DEVICE_OS ) != S3E_OS_ID_IPHONE )
+	{
+		titleImage = Iw2DCreateImage("Title(PB).png");
+		titleSprite.setUWidth( 1024 );
+		titleSprite.setUHeight( 600 );
+	}
+	else
+	{
+		titleImage = Iw2DCreateImage("Title(HD).png");
+		titleSprite.setUWidth( 1024 );
+		titleSprite.setUHeight( 768 );
+	}
 	titleSprite.setSize( width, height );
 	titleSprite.setImage( titleImage );
 	titleSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
-
-	// here
-	// load fuzzy facts 
 	
 	// load loading screen for new game
 	//loadingScreen.setUWidth( 480 );
 	//loadingScreen.setUHeight( 320 );
 	//loadingScreen.setSize( 480, 320 );
-	loadingScreen.setUWidth( 1024 );
-	loadingScreen.setUHeight( 768 );
+	// Android
+	if( s3eDeviceGetInt( S3E_DEVICE_OS ) != S3E_OS_ID_IPHONE )
+	{
+		loadingImage = Iw2DCreateImage("Loadingscreen1(PB).png");
+		loadingScreen.setUWidth( 1024 );
+		loadingScreen.setUHeight( 600 );
+	}
+	else
+	{
+		loadingImage = Iw2DCreateImage("Loadingscreen1(HD).png");
+		loadingScreen.setUWidth( 1024 );
+		loadingScreen.setUHeight( 768 );
+	}
 	loadingScreen.setSize( width, height );
-	//loadingImage = Iw2DCreateImage("loading2.png");
-	loadingImage = Iw2DCreateImage("Loadingscreen1(HD).png");
+	//loadingImage = Iw2DCreateImage("loading2.png");	
 	loadingScreen.setImage( loadingImage );
 	loadingScreen.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
+	
 
 	// loading clock animation
 	//loadingIconSprite.setUWidth( 128 );
@@ -31780,14 +31950,15 @@ void LoadBackgroundAndOtherInit()
 	//loadingIconSprite.setSize( 128, 128 );
 	loadingIconSprite.setUWidth( 256 );
 	loadingIconSprite.setUHeight( 256 );
-	loadingIconSprite.setSize( width * .27, width * .27 );
+	//loadingIconSprite.setSize( width * .27, width * .27 );
+	loadingIconSprite.setSize( height * .4, height * .4 );
 	//loadingIconImage = Iw2DCreateImage( "loadingIcon.png" );
 	loadingIconImage = Iw2DCreateImage( "LoadingIcon(HD).png" );
 	loadingIconSprite.setImage( loadingIconImage );
 	loadingIconSprite.setDelayTime( 2 );
 	loadingIconSprite.setTotalFrames( 15 );
 	//loadingIconSprite.setPosition( IwGxGetScreenWidth() - 75 , IwGxGetScreenHeight() - 75 );
-	loadingIconSprite.setPosition( width * .84, height * .77 );
+	loadingIconSprite.setPosition( width * .84, height * .80 );
 	
 	// LOAD BACKGROUND AND STARS
 	
@@ -31964,6 +32135,32 @@ void LoadMenuData()
 	menuDataTerminated = false;	
 
 	int32 heapUsed = s3eMemoryGetInt(S3E_MEMORY_USED); // Free memory minus heap size
+
+	// load fuzzy fact sprite and image
+	switch( fuzzyFactCounter )
+	{
+	case 0:
+		fuzzyFactImage = Iw2DCreateImage("fuzzyfact1.png");
+		break;
+	case 1:
+		fuzzyFactImage = Iw2DCreateImage("fuzzyfact2.png");
+		break;
+	case 2:
+		fuzzyFactImage = Iw2DCreateImage("fuzzyfact3.png");
+		break;
+	}
+
+	fuzzyFactCounter++;
+	if( fuzzyFactCounter > 2 )
+	{
+		fuzzyFactCounter = 0;
+	}
+
+	fuzzyFactSprite.setImage( fuzzyFactImage );
+	fuzzyFactSprite.setUWidth( 1024 );
+	fuzzyFactSprite.setUHeight( 768 );
+	fuzzyFactSprite.setSize( width, height );
+	fuzzyFactSprite.setPosition( width/2, height/2 );
 
 	// initialize menuscreens
 	for( int i = 0; i < NUM_OF_MENU_SCREENS; i++ )
@@ -32599,7 +32796,7 @@ void LoadLevelData()
 			pointSprites[i][j].setUHeight( 128 );
 			//pointSprites[i][j].setSize( 64, 64 ); // not affected. hardcoded sizes for specific points
 			//pointSprites[i][j].setSize( width * .133, width * .133 ); // not affected. hardcoded sizes for specific points
-			pointSprites[i][j].setSize( 128, 128 ); // not affected. hardcoded sizes for specific points
+			//pointSprites[i][j].setSize( 128, 128 ); // not affected. hardcoded sizes for specific points
 
 			pointSprites[i][j].set100PointsImage( pointImage100 );
 			pointSprites[i][j].set1000PointsImage( pointImage1000 );
@@ -32617,7 +32814,6 @@ void LoadLevelData()
 		}
 	}
 	
-	// here. make these resolution independent
 	// load active square indicators
 	blueSquare.Initialize( ActiveSquare::BLUE );DisplayLoading();
 	redSquare.Initialize( ActiveSquare::RED );DisplayLoading();
@@ -33885,9 +34081,16 @@ int32 loadingMenuCallback( void* systemData, void *userData )
 	// load menu data after a couple seconds
 	if( transition == false )
 	{
+		// Set the timer to start turning on backlight
+		//printf("Turning on SET backlight.");
+		//setBacklight = true;
+		//s3eTimerSetTimer( 5, SetBacklight, 0 );
+
 		// display loading screen
 		LoadMenuData();
 		InitializeMenu();		
+
+		//setBacklight = false;
 
 		menuCounter = 0;
 
