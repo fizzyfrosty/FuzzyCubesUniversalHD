@@ -93,9 +93,9 @@ deployments
 	#GENERIC
 	#name='fuzzycubes'
 	#caption='Fuzzy Cubes' #maximum of 11 characters to be fully displayed in device	
-	caption='FuzzyCubes HD'
-	name='fuzzycubeshd'
-	#name='FuzzyCubesHD' #for playbook
+	caption='Fuzzy Cubes HD'
+	#name='fuzzycubeshd'
+	name='Fuzzy Cubes HD' #for playbook
 	embed-icf='1'
 	provider='Workhorse Bytes'
 
@@ -114,7 +114,7 @@ deployments
 	iphone-icon-ipad=data/icon72x72.png
 	iphone-icon-ipad-search=data/icon50x50.png
 	#iphone-appid='com.workhorsebytes.fuzzycubes'
-	iphone-appid='com.workhorsebytes.fuzzycubeshd'
+	iphone-appid='com.workhorsebytes.fuzzycubesuniversalhd'
 
 	#for distribution only
 	#iphone-provisioning-profile='data/Fuzzy_Cubes_Distribution_Profile.mobileprovision'
@@ -137,10 +137,9 @@ deployments
 	#playbook-storepass='thefuzzies'
 	#playbook-access-shared''
 
-	#version-major='1'
+	version-major='1'
 	#version-minor='0'
 	#version-revision='0'
-	#version-revision='7' Playbook
 
 	#Device hostname (or ip): [USB ip ^] - 169.254.0.1
 	#Device password: [Developer mode pw ^] - birdy
@@ -149,5 +148,4 @@ deployments
 deployments
 {
 	["Default"]
-	name='FuzzyCubesHD'
 }

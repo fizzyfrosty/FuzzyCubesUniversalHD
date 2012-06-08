@@ -6,6 +6,13 @@ Version Number: Major.minor.build
 1.1.0 - 2/19/12
 1.0.0 - 2/6/12
 
+Playbook Distribution Notes:
+- Check:
+	- .icf
+	- .mkb
+	- // testing
+	- Flurry
+
 5/27/12
 General Changes:
 	- Added title screen and loading screen for playbook resolutions
@@ -6526,6 +6533,14 @@ void Init()
 	width = IwGxGetScreenWidth();
 	height = IwGxGetScreenHeight();
 
+	// Check to see if width and height are flipped due to orientation
+	if( height > width ) // if height is greater than width, switch it
+	{
+		int16 temp = height;
+		height = width;
+		width = temp;
+	}
+
 	// initialize flurry
 	if (!s3eFlurryAvailable())
     {
@@ -6570,7 +6585,8 @@ void Init()
 		// Playbook
 		else if( s3eDeviceGetInt (S3E_DEVICE_OS) == S3E_OS_ID_QNX )
 		{
-			s3eFlurryStart("M5A3Z9RZLY1YITWF9UC2");// Fuzzy Cubes HD Beta Playbook
+			//s3eFlurryStart("M5A3Z9RZLY1YITWF9UC2");// Fuzzy Cubes HD Beta Playbook
+			s3eFlurryStart("7BT7YW9SI872HUJJS5UC");// Fuzzy Cubes HD Playbook
 		}
 	}
 
@@ -8311,7 +8327,7 @@ bool Update()
 					if( levelNumber == 7 )
 					{
 						// play ping sound for timer					
-						if( ep3Seconds <= 30 && ep3Seconds > 10 )
+						if( ep3Seconds <= 50 && ep3Seconds > 10 )
 						{
 							playPingSound();
 						}
@@ -8323,7 +8339,7 @@ bool Update()
 					else if( levelNumber == 8 )
 					{
 						// play ping sound for timer					
-						if( ep3Seconds <= 30 && ep3Seconds > 10 )
+						if( ep3Seconds <= 50 && ep3Seconds > 10 )
 						{
 							playPingSound();
 						}
@@ -8335,7 +8351,7 @@ bool Update()
 					else if( levelNumber == 9 )
 					{
 						// play ping sound for timer					
-						if( ep3Seconds <= 40 && ep3Seconds > 10 )
+						if( ep3Seconds <= 50 && ep3Seconds > 10 )
 						{
 							playPingSound();
 						}
@@ -19796,6 +19812,7 @@ void ReleaseScoreScreenButtons()
 void ReleasePausedButtons()
 {
 	// testing			
+	/*
 	if( testButton.pressed == true ) // Test Button
 	{
 		// raise volume no matter what paused button is pressed
@@ -19835,6 +19852,8 @@ void ReleasePausedButtons()
 		//s3eVideoPlay("cinema1-4.3gp", 1, 0, 0, s3eSurfaceGetInt(S3E_SURFACE_WIDTH), s3eSurfaceGetInt(S3E_SURFACE_HEIGHT)); // play movie
 		//s3eVideoPlay("cinema1.mp4", 1, 0, 0, IwGxGetScreenWidth(), IwGxGetScreenHeight() );
 	}
+	*/
+	
 	
 	// Release paused button
 	if( resumeButton.pressed == true && limbo == false ) // Pause Button
