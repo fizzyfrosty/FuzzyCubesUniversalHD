@@ -6514,11 +6514,13 @@ void Init()
 {
 	// android
 	// initialize orientation for android, take out for ios
+	// testing
+	/* Only for marmalade 6.0
 	if( s3eDeviceGetInt( S3E_DEVICE_OS ) != S3E_OS_ID_IPHONE )
 	{
 		s3eSurfaceSetInt(S3E_SURFACE_DEVICE_ORIENTATION_LOCK, 4);
 	}
-		
+	*/	
 
 
 	IwGxInit(); // for rendering 3d/2d
@@ -6573,8 +6575,8 @@ void Init()
 		if(s3eDeviceGetInt (S3E_DEVICE_OS) == S3E_OS_ID_IPHONE)
 		{
 			//s3eFlurryStart("SBI85EBKAWR1ETK5CCW9");
-			s3eFlurryStart(""); // Fuzzy Cubes HD Beta iPhone	
-			printf("Started Flurry...\n");
+			s3eFlurryStart("MK3RKHHRZZ3VFC7MEBYI"); // Fuzzy Cubes HD
+			//printf("Started Flurry...\n");
 		}
 		// Android Applicaton Key
 		else if(s3eDeviceGetInt (S3E_DEVICE_OS) == S3E_OS_ID_ANDROID)
@@ -19298,7 +19300,7 @@ void ReleaseHighScoreMenuScreenButtons()
 				else // if has connection
 				{
 					// launch the link
-					if( s3eOSExecExecute( "itms-apps://itunes.apple.com/app/id500897011?ls=1&mt=8", false ) != S3E_RESULT_SUCCESS )
+					if( s3eOSExecExecute( "itms-apps://itunes.apple.com/us/app/fuzzycubes-hd/id534802429?ls=1&mt=8", false ) != S3E_RESULT_SUCCESS )
 					{
 						printf("Failed to launch link to app store\n");
 					}

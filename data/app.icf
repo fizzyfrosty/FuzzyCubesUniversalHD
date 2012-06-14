@@ -43,8 +43,8 @@ MemSize=33600000#33600000#16800000#8400000
 MemSizeDebug=33600000#33600000#16800000#8400000
 SysTraceToFile=1
 #landscape
-DispFixRot="Landscape" #for marmalade 6
-#DispFixRot=2 #for 5.2
+#DispFixRot="FixedLandscape" #for marmalade 6
+DispFixRot=2 #for 5.2
 #SplashMinDuration=3000
 #Splashscreen=splash2.jpg
 

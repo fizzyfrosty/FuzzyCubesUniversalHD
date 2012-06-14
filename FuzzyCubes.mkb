@@ -103,25 +103,29 @@ deployments
 	iphone-no-splash='1'
 	iphone-splash=data/splash2.png
 	iphone-icon=data/icon57x57.png
+	iphone-icon-ipad=data/icon72x72.png
 	iphone-icon-high-res=data/icon114x114.png
+	#iphone-icon-ipad-high-res=data/icon144x144.png
 	iphone-icon-settings=data/icon29x29.png
-	iphone-icon-settings-high-res=data/icon58x58.png	
+	iphone-icon-settings-high-res=data/icon58x58.png
+	iphone-icon-ipad-search=data/icon50x50.png
+	#iphone-icon-ipad-search-high-res=data/icon100x100.png	
+	#iphone-icon-ipad-search=data/icon50x50.png	
 	itunes-artwork=data/icon512x512.png
 	iphone-prerendered-icon='1'
 	iphone-disable-ipad='0'
 	iphone-ipad-only='1'
 	
-	iphone-icon-ipad=data/icon72x72.png
-	iphone-icon-ipad-search=data/icon50x50.png
+	
 	#iphone-appid='com.workhorsebytes.fuzzycubes'
 	iphone-appid='com.workhorsebytes.fuzzycubeshd'
 
 	#for distribution only
-	#iphone-provisioning-profile='data/Fuzzy_Cubes_Distribution_Profile.mobileprovision'
-	#iphone-sign-for-distribution='1'
-	#version-major='1'
-	#version-minor='0'
-	#version-revision='0'
+	iphone-provisioning-profile='data/fuzzycubes_hd_distribution.mobileprovision'
+	iphone-sign-for-distribution='1'
+	version-major='1'
+	version-minor='0'
+	version-revision='0'
 	
 	#iphone-info-plist='data/Info.plist'
 	#iphone-link-opts='-weak_framework iAd' #for adwhirl ONLY
@@ -138,9 +142,9 @@ deployments
 	#playbook-access-shared''
 
 	#version-major='1'
-	#version-minor='0'
-	#version-revision='0'
-	#version-revision='7' Playbook
+	version-minor='0'
+	version-revision='0'
+	version-revision='8' #Playbook
 
 	#Device hostname (or ip): [USB ip ^] - 169.254.0.1
 	#Device password: [Developer mode pw ^] - birdy
